@@ -3,19 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --colors-primary: #00ffee;
+  --colors-secondary: #00ff00;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
+}
+
+.btn {
+  @apply flex items-center justify-center px-4 py-2 rounded;
+}
+
+.btn--primary {
+  @apply text-white transition bg-black hover:bg-black/90;
+}
+
+.btn--secondary {
+  @apply text-black transition bg-white border-2 hover:border-black/20;
+}
+
+.skeleton {
+  @apply bg-gray-200 animate-pulse;
+}
+
+a:not(.btn) {
+  @apply hover:underline;
 }
