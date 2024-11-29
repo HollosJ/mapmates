@@ -1,7 +1,6 @@
 'use client';
 
-import { signIn, signOut, useSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import AuthButton from '@/components/AuthButton';
 import {
   Bars3Icon,
   MapIcon,
@@ -9,9 +8,9 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/solid';
-import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import AuthButton from './AuthButton';
+import { useState } from 'react';
 
 const Nav = () => {
   const { data: session } = useSession();

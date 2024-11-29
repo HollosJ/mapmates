@@ -1,8 +1,7 @@
 'use client';
 
+import FlagIcon from '@/components/FlagIcon';
 import useCountriesByCCN3 from '@/hooks/useCountriesByCCN3';
-import React from 'react';
-import FlagIcon from './FlagIcon';
 import { Country } from '@/types';
 
 type Props = {

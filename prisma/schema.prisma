@@ -14,4 +14,5 @@ model User {
   name             String
   image            String // Profile image (comes from Google account)
   visitedCountries String[] // Array of CCN3 codes (ISO 3166-1 alpha-3)
+  friends          String[] // Array of other users' ids
 }

@@ -1,6 +1,5 @@
 import { Country } from '@/types';
 import Image from 'next/image';
-import React from 'react';
 
 type Props = {
   className?: string;
@@ -10,7 +9,6 @@ type Props = {
 
 /**
  * A component that displays a country's flag as an image with a tooltip.
- *
  * @param {Props} props - The properties for the FlagIcon component.
  * @param {string} [props.className] - Optional class name for styling.
  * @param {Country} props.country - The country object containing the flag image URL and country name.

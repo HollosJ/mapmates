@@ -1,7 +1,7 @@
 'use client';
 
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import geoJson from '@/app/countries-110m.json';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
 type Props = {
   visitedCountries: string[];

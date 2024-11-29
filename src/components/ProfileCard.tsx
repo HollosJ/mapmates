@@ -1,10 +1,9 @@
+import FlagList from '@/components/FlagList';
+import StaticMap from '@/components/Map/StaticMap';
 import { DBUser } from '@/types';
-import Image from 'next/image';
-import React from 'react';
-import FlagList from './FlagList';
-import Link from 'next/link';
 import { MapPinIcon } from '@heroicons/react/24/solid';
-import StaticMap from './Map/StaticMap';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   user: DBUser;
