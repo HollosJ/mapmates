@@ -9,11 +9,9 @@ export const metadata: Metadata = {
 const MyMapPage = async () => {
   return (
     <>
-      <div className="container">
-        <h1 className="absolute text-3xl font-bold text-center -translate-x-1/2 text-pretty top-4 left-1/2">
-          Where have you visited?
-        </h1>
-      </div>
+      <h1 className="absolute top-4 left-0 px-4 py-2 text-lg bg-white rounded-e-lg">
+        Where have you visited?
+      </h1>
 
       <InteractiveMap />
     </>

@@ -34,7 +34,7 @@ const Nav = () => {
       {/* Open button */}
       <button
         onClick={open}
-        className="absolute right-4 top-4"
+        className="absolute right-4 top-4 bg-white p-4 rounded"
         aria-label="Open navigation"
       >
         <Bars3Icon className="size-6" />

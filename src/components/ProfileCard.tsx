@@ -44,22 +44,24 @@ const ProfileCard = ({ user, className, isCurrentUser = false }: Props) => {
             className="justify-center"
           />
 
-          <StaticMap
-            visitedCountries={user.visitedCountries}
-            className="w-full mt-8 bg-indigo-400 rounded"
-          />
+          <Link
+            href="/map"
+            className="hover:opacity-80 transition-all w-full mt-8 group relative"
+          >
+            <StaticMap
+              visitedCountries={user.visitedCountries}
+              className="rounded bg-slate-200"
+            />
+
+            <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-0 group-hover:opacity-100 transition-all grid place-items-center  ">
+              <p className="text-white">View Map</p>
+            </div>
+          </Link>
         </>
       ) : (
         <p className="mt-2 text-sm text-gray-600">
           hasn't visited any countries yet!
         </p>
-      )}
-
-      {/* Add button */}
-      {isCurrentUser && (
-        <Link href="/map" className="mt-8 btn btn--secondary">
-          <MapPinIcon className="mr-2 size-6" /> Add a country
-        </Link>
       )}
     </div>
   );

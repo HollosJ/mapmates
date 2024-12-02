@@ -25,7 +25,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} antialiased min-h-dvh`}>
+      <body
+        className={`${geistSans.variable} antialiased min-h-dvh bg-primary`}
+      >
         <SessionProvider session={session}>
           <Nav />
 
