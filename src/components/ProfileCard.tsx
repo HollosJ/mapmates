@@ -46,15 +46,15 @@ const ProfileCard = ({ user, className, isCurrentUser = false }: Props) => {
 
           <Link
             href="/map"
-            className="hover:opacity-80 transition-all w-full mt-8 group relative"
+            className="transition-all w-full mt-8 group rounded relative overflow-hidden"
           >
             <StaticMap
               visitedCountries={user.visitedCountries}
-              className="rounded bg-slate-200"
+              className=" bg-slate-200"
             />
 
-            <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-0 group-hover:opacity-100 transition-all grid place-items-center  ">
-              <p className="text-white">View Map</p>
+            <div className="absolute top-0 left-0 w-full h-full bg-black/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all grid place-items-center  ">
+              <p className="text-white">View your Map</p>
             </div>
           </Link>
         </>
