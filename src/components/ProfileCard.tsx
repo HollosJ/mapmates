@@ -1,7 +1,6 @@
 import FlagList from '@/components/FlagList';
 import StaticMap from '@/components/Map/StaticMap';
 import { DBUser } from '@/types';
-import { MapPinIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -46,14 +45,14 @@ const ProfileCard = ({ user, className, isCurrentUser = false }: Props) => {
 
           <Link
             href="/map"
-            className="transition-all w-full mt-8 group rounded relative overflow-hidden"
+            className="relative w-full mt-8 overflow-hidden transition-all rounded group"
           >
             <StaticMap
               visitedCountries={user.visitedCountries}
               className=" bg-slate-200"
             />
 
-            <div className="absolute top-0 left-0 w-full h-full bg-black/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all grid place-items-center  ">
+            <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
               <p className="text-white">View your Map</p>
             </div>
           </Link>
