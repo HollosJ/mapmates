@@ -12,11 +12,11 @@ import geoJson from '@/app/countries-110m.json';
 
 const PannableMap = () => {
   const [visitedCountries, setVisitedCountries] = useState<string[]>([]);
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
   async function handleCountrySelect({ id }: { id: string }) {
-    if (isUpdating) return;
+    if (loading) return;
 
     if (!id) {
       console.error(
@@ -30,7 +30,7 @@ const PannableMap = () => {
       ? visitedCountries.filter((country) => country !== id)
       : [...visitedCountries, id];
 
-    setIsUpdating(true);
+    setLoading(true);
 
     try {
       const response = await fetch('/api/user-countries', {
@@ -51,27 +51,32 @@ const PannableMap = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsUpdating(false);
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    fetch('/api/user-countries')
-      .then((res) => res.json())
-      .then((data) => {
-        setVisitedCountries(data.visitedCountries);
-      })
-      .catch((error) => console.error(error));
+    try {
+      fetch('/api/user-countries')
+        .then((response) => response.json())
+        .then((data) => {
+          setVisitedCountries(data.visitedCountries);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   }, []);
 
   return (
     <>
       {/* Show the user that it is updating the map */}
-      {isUpdating && (
+      {loading && (
         <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-dvw h-dvh bg-black/50">
           <div className="flex items-center justify-center">
             <div className="w-8 h-8 mr-2 border-2 border-gray-200 rounded-full animate-spin border-t-gray-600"></div>
-            <p className="text-white">Updating map...</p>
+            <p className="text-white">Loading...</p>
           </div>
         </div>
       )}
@@ -107,7 +112,7 @@ const PannableMap = () => {
                     },
                     hover: {
                       filter: 'brightness(1.1)',
-                      cursor: `${isUpdating ? 'wait' : 'pointer'}`,
+                      cursor: `${loading ? 'wait' : 'pointer'}`,
                     },
                   }}
                   onMouseEnter={() =>
