@@ -11,3 +11,10 @@ export type DBUser = {
   image: string;
   visitedCountries: string[];
 };
+
+export type DBFriendship = {
+  id: string;
+  sender: DBUser;
+  receiver: DBUser;
+  status: 'PENDING' | 'ACCEPTED';
+};
