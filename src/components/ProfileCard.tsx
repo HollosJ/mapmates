@@ -1,17 +1,19 @@
 import FlagList from '@/components/FlagList';
 import StaticMap from '@/components/Map/StaticMap';
 import { DBUser } from '@/types';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
   user: DBUser;
-  isCurrentUser?: boolean;
   className?: string;
 };
 
-const ProfileCard = ({ user, className, isCurrentUser = false }: Props) => {
+const ProfileCard = async ({ user, className }: Props) => {
   if (!user) return null;
+  const session = await getServerSession();
+  const isCurrentUser = session?.user?.email === user.email;
 
   return (
     <div
@@ -43,19 +45,26 @@ const ProfileCard = ({ user, className, isCurrentUser = false }: Props) => {
             className="justify-center"
           />
 
-          <Link
-            href="/map"
-            className="relative w-full mt-8 overflow-hidden transition-all rounded group"
-          >
+          {isCurrentUser ? (
+            <Link
+              href="/map"
+              className="relative w-full mt-8 overflow-hidden transition-all rounded group"
+            >
+              <StaticMap
+                visitedCountries={user.visitedCountries}
+                className=" bg-slate-200"
+              />
+
+              <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
+                <p className="text-white">View your Map</p>
+              </div>
+            </Link>
+          ) : (
             <StaticMap
               visitedCountries={user.visitedCountries}
-              className=" bg-slate-200"
+              className="w-full mt-8 rounded bg-slate-200"
             />
-
-            <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
-              <p className="text-white">View your Map</p>
-            </div>
-          </Link>
+          )}
         </>
       ) : (
         <p className="mt-2 text-sm text-gray-600">
