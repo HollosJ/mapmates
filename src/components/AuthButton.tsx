@@ -21,7 +21,7 @@ const AuthButton = ({ className }: Props) => {
       Sign out
       <Image
         className="ml-2 rounded-full size-6"
-        src={session.user?.image || ''}
+        src={session.user?.image || '/assets/user-placeholder.webp'}
         alt=""
         width={30}
         height={30}
