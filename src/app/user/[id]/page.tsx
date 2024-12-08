@@ -1,7 +1,6 @@
 import ProfileCard from '@/components/ProfileCard';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
-import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 
 type Params = Promise<{ id: string }>;
@@ -28,22 +27,6 @@ export default async function Page({ params }: { params: Params }) {
   // Get the user based on the ID in the URL params
   const { id } = await params;
   const user = await getUserById(id);
-
-  // Find user from database using email found in session, and check if it matches the ID of the users profile we are viewing
-  const session = await getServerSession();
-
-  let currentUser: { id: string } | null = null;
-
-  if (session?.user?.email) {
-    currentUser = await prisma.user.findUnique({
-      where: {
-        email: session?.user?.email as string,
-      },
-      select: {
-        id: true,
-      },
-    });
-  }
 
   if (!user) notFound();
 
