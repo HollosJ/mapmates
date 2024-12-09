@@ -1,15 +1,30 @@
 import ProfileCard from '@/components/ProfileCard';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
-import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 
 type Params = Promise<{ id: string }>;
 
 async function getUserById(id: string): Promise<DBUser | null> {
-  return prisma.user.findUnique({
+  const friend = await prisma.user.findUnique({
     where: { id },
+    include: {
+      sentFriendships: {
+        include: {
+          sender: true, // Include the sender details
+          receiver: true, // Include the receiver details
+        },
+      },
+      receivedFriendships: {
+        include: {
+          receiver: true, // Include the receiver details
+          sender: true, // Include the sender details
+        },
+      },
+    },
   });
+
+  return friend as DBUser | null;
 }
 
 // Dynamically set metadata for the page based on the users name
@@ -28,22 +43,6 @@ export default async function Page({ params }: { params: Params }) {
   // Get the user based on the ID in the URL params
   const { id } = await params;
   const user = await getUserById(id);
-
-  // Find user from database using email found in session, and check if it matches the ID of the users profile we are viewing
-  const session = await getServerSession();
-
-  let currentUser: { id: string } | null = null;
-
-  if (session?.user?.email) {
-    currentUser = await prisma.user.findUnique({
-      where: {
-        email: session?.user?.email as string,
-      },
-      select: {
-        id: true,
-      },
-    });
-  }
 
   if (!user) notFound();
 

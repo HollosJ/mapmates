@@ -1,19 +1,18 @@
-import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
     // Check if person making the request has a user session
     const session = await getServerSession();
 
-    if (!session) {
+    if (!session || !session.user?.email) {
       return NextResponse.json({ error: 'Session not found' }, { status: 401 });
     }
 
     // Get the user's email from the session
-    const userEmail = session.user?.email as string;
+    const userEmail = session.user?.email;
 
     const user = await prisma.user.findUnique({
       where: { email: userEmail },
@@ -36,8 +35,6 @@ export async function GET() {
 }
 
 export async function PATCH(req: Request) {
-  const { visitedCountries: newVisitedCountries } = await req.json();
-
   try {
     const session = await getServerSession();
 
@@ -47,6 +44,8 @@ export async function PATCH(req: Request) {
         { status: 401 }
       );
     }
+
+    const { visitedCountries: newVisitedCountries } = await req.json();
 
     const userEmail = session.user?.email as string;
 

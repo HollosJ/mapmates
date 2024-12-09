@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import geoJson from '@/app/countries-110m.json';
+import { useEffect, useState } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -8,9 +9,7 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps';
 
-import geoJson from '@/app/countries-110m.json';
-
-const PannableMap = () => {
+const InteractiveMap = () => {
   const [visitedCountries, setVisitedCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
@@ -56,17 +55,25 @@ const PannableMap = () => {
   }
 
   useEffect(() => {
-    try {
-      fetch('/api/user-countries')
-        .then((response) => response.json())
-        .then((data) => {
-          setVisitedCountries(data.visitedCountries);
-          setLoading(false);
-        });
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
+    async function fetchVisitedCountries() {
+      try {
+        const response = await fetch('/api/user-countries');
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users' visited countries");
+        }
+
+        const data = await response.json();
+
+        setVisitedCountries(data.visitedCountries);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     }
+
+    fetchVisitedCountries();
   }, []);
 
   return (
@@ -83,7 +90,7 @@ const PannableMap = () => {
 
       {/* Show hovered country name */}
       {hoveredCountry && (
-        <div className="absolute z-50 px-4 py-2 text-white rounded-md shadow-lg top-4 left-1/2 -translate-x-1/2 bg-black/70 hidden sm:block">
+        <div className="absolute z-50 px-4 py-2 text-white rounded-md shadow-md top-4 left-1/2 -translate-x-1/2 bg-black/70 hidden sm:block">
           {hoveredCountry}
         </div>
       )}
@@ -119,9 +126,7 @@ const PannableMap = () => {
                     setHoveredCountry(geo.properties.name || 'Unknown Country')
                   }
                   onMouseLeave={() => setHoveredCountry(null)}
-                  onClick={() => {
-                    handleCountrySelect(geo);
-                  }}
+                  onClick={() => handleCountrySelect(geo)}
                 />
               ))
             }
@@ -132,4 +137,4 @@ const PannableMap = () => {
   );
 };
 
-export default PannableMap;
+export default InteractiveMap;

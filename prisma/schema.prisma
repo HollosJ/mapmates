@@ -7,20 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// A user signed up with google
 model User {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  email            String   @unique
-  name             String
-  image            String // Profile image (comes from Google account)
-  visitedCountries String[] // Array of CCN3 codes (ISO 3166-1 alpha-3)
+  id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+  email               String       @unique
+  name                String
+  image               String // Profile image (comes from Google account)
+  visitedCountries    String[] // Array of CCN3 codes (ISO 3166-1 alpha-3)
+  sentFriendships     Friendship[] @relation("SenderFriendship")
+  receivedFriendships Friendship[] @relation("ReceiverFriendship")
 }
 
 model Friendship {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId()
-  userA  String @db.ObjectId()
-  userB  String @db.ObjectId()
-  status String @default("pending") // pending | accepted
+  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  sender     User             @relation("SenderFriendship", fields: [senderId], references: [id])
+  receiver   User             @relation("ReceiverFriendship", fields: [receiverId], references: [id])
+  senderId   String           @db.ObjectId
+  receiverId String           @db.ObjectId
+  status     FriendshipStatus @default(PENDING)
+}
 
-  @@index([userA, userB], map: "user_a_user_b_index")
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
 }

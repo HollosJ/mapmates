@@ -26,7 +26,7 @@ const FlagIcon = (props: Props) => {
         alt={country.name}
         width={90}
         height={60}
-        className={`object-contain w-16 h-12 drop-shadow ${className || ''}`}
+        className={`object-contain w-16 h-12 drop-shadow-md ${className || ''}`}
         style={{
           // Add a slight rotation to the flag
           transform: `rotate(${Math.random() * 10 - 5}deg)`,
@@ -34,7 +34,7 @@ const FlagIcon = (props: Props) => {
       />
 
       <div
-        className={`absolute top-[calc(100%+1rem)] whitespace-nowrap text-xs z-10 font-bold px-2 py-1 transition -translate-x-1/2 -translate-y-1/2 rounded opacity-0 left-1/2 group-hover:opacity-100 ${
+        className={`absolute top-[calc(100%+1rem)] whitespace-nowrap text-xs z-10 font-bold px-2 py-1 transition -translate-x-1/2 -translate-y-1/2 shadow-md rounded opacity-0 left-1/2 group-hover:opacity-100 ${
           dark ? 'bg-black text-white' : 'bg-white text-black'
         }`}
       >
