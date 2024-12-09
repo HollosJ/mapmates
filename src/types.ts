@@ -15,8 +15,8 @@ export type DBUser = {
   name: string;
   image: string;
   visitedCountries: string[];
-  sentFriendships: DBFriendship[];
-  receivedFriendships: DBFriendship[];
+  sentFriendships?: DBFriendship[];
+  receivedFriendships?: DBFriendship[];
 };
 
 export type DBFriendship = {
