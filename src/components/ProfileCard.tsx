@@ -18,12 +18,14 @@ const ProfileCard = async ({ user, className }: Props) => {
 
   const session = await getServerSession();
 
-  if (!session?.user?.email) return null;
+  let sessionUser = null;
 
   // Find session user in database
-  let sessionUser = await prisma.user.findUnique({
-    where: { email: session?.user?.email },
-  });
+  if (session?.user?.email) {
+    sessionUser = await prisma.user.findUnique({
+      where: { email: session?.user?.email },
+    });
+  }
 
   // Check if the current user is the same as the users' profile being displayed
   let isCurrentUser = session?.user?.email === user.email;
