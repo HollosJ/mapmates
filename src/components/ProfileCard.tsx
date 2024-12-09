@@ -31,7 +31,7 @@ const ProfileCard = async ({ user, className }: Props) => {
   let isCurrentUser = session?.user?.email === user.email;
 
   // Check if any friendships exist between the current user and the user being displayed
-  let friendshipsBetweenUsers = await prisma.friendship.findFirst({
+  let friendshipBetweenUsers = await prisma.friendship.findFirst({
     where: {
       OR: [
         {
@@ -103,40 +103,42 @@ const ProfileCard = async ({ user, className }: Props) => {
         </p>
       )}
 
-      {friendshipsBetweenUsers?.status === 'ACCEPTED' && sessionUser && (
+      {friendshipBetweenUsers?.status === 'ACCEPTED' && sessionUser && (
         <form
           action={async () => {
             'use server';
-            await rejectFriendRequest(friendshipsBetweenUsers.id);
+            await rejectFriendRequest(friendshipBetweenUsers.id);
           }}
         >
-          <button type="submit" className="text-red-700 mt-8">
+          <button type="submit" className="text-red-700 mt-4 md:mt-8">
             Remove Friend
           </button>
         </form>
       )}
 
-      {friendshipsBetweenUsers?.status === 'PENDING' && sessionUser && (
-        <form
-          action={async () => {
-            'use server';
-            await rejectFriendRequest(friendshipsBetweenUsers.id);
-          }}
-        >
-          <button type="submit" className="text-red-700 mt-8">
-            Cancel Friend Request
-          </button>
-        </form>
-      )}
+      {friendshipBetweenUsers?.status === 'PENDING' &&
+        friendshipBetweenUsers?.senderId === sessionUser?.id &&
+        sessionUser && (
+          <form
+            action={async () => {
+              'use server';
+              await rejectFriendRequest(friendshipBetweenUsers.id);
+            }}
+          >
+            <button type="submit" className="text-red-700 mt-4 md:mt-8">
+              Cancel Friend Request
+            </button>
+          </form>
+        )}
 
-      {!friendshipsBetweenUsers?.status && !isCurrentUser && sessionUser && (
+      {!friendshipBetweenUsers?.status && !isCurrentUser && sessionUser && (
         <form
           action={async () => {
             'use server';
             await sendFriendRequest(user.id);
           }}
         >
-          <button type="submit" className="btn btn--primary mt-8">
+          <button type="submit" className="btn btn--primary mt-4 md:mt-8">
             Send Friend Request
           </button>
         </form>
