@@ -103,7 +103,7 @@ const ProfileCard = async ({ user, className }: Props) => {
         </p>
       )}
 
-      {friendshipsBetweenUsers?.status === 'ACCEPTED' && (
+      {friendshipsBetweenUsers?.status === 'ACCEPTED' && sessionUser && (
         <form
           action={async () => {
             'use server';
@@ -116,7 +116,7 @@ const ProfileCard = async ({ user, className }: Props) => {
         </form>
       )}
 
-      {friendshipsBetweenUsers?.status === 'PENDING' && (
+      {friendshipsBetweenUsers?.status === 'PENDING' && sessionUser && (
         <form
           action={async () => {
             'use server';
@@ -129,7 +129,7 @@ const ProfileCard = async ({ user, className }: Props) => {
         </form>
       )}
 
-      {!friendshipsBetweenUsers?.status && !isCurrentUser && (
+      {!friendshipsBetweenUsers?.status && !isCurrentUser && sessionUser && (
         <form
           action={async () => {
             'use server';
