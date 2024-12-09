@@ -142,7 +142,9 @@ const ProfileCard = async ({ user, className }: Props) => {
         </form>
       )}
 
-      {isCurrentUser && <CopyProfileLink userId={user.id} className="mt-8" />}
+      {isCurrentUser && (
+        <CopyProfileLink userId={user.id} className="mt-4 md:mt-8" />
+      )}
     </div>
   );
 };
