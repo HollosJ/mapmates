@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Params }) {
   if (!user) notFound();
 
   return (
-    <div className="container px-8 py-16">
+    <div className="container py-8 md:py-16">
       <ProfileCard user={user} className="mx-auto" />
     </div>
   );

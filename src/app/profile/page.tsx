@@ -21,7 +21,7 @@ export default async function ProfilePage() {
   if (!user) return <div>User not found</div>;
 
   return (
-    <div className="container px-8 py-16">
+    <div className="container py-8 md:py-16">
       <ProfileCard user={user} className="mx-auto" />
     </div>
   );
