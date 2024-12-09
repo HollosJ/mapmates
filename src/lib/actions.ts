@@ -41,6 +41,37 @@ export async function rejectFriendRequest(friendshipId: string) {
   revalidatePath('/friends');
 }
 
+export async function sendFriendRequest(receiverId: string) {
+  // Get the user's email from the session
+  const session = await getServerSession();
+
+  if (!session?.user?.email) {
+    throw new Error('Unauthorized: No user session found');
+  }
+
+  // Create a new friendship between the current user and the receiver
+  const newFriendship = await prisma.friendship.create({
+    data: {
+      sender: {
+        connect: {
+          email: session.user.email,
+        },
+      },
+      receiver: {
+        connect: {
+          id: receiverId,
+        },
+      },
+      status: 'PENDING',
+    },
+  });
+
+  // Optionally, trigger revalidation for the friends page
+  revalidatePath('/friends');
+
+  return newFriendship;
+}
+
 // Visited countries actions
 export async function toggleVisitedCountry(countryId: string) {
   // Get the user's email from the session
