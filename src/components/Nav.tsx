@@ -34,10 +34,10 @@ const Nav = () => {
       {/* Open button */}
       <button
         onClick={open}
-        className="absolute right-4 top-4 bg-white p-4 shadow-md rounded"
+        className="absolute right-4 top-4 bg-white p-2 md:p-4 shadow-md rounded"
         aria-label="Open navigation"
       >
-        <Bars3Icon className="size-6" />
+        <Bars3Icon className="size-4 md:size-6" />
       </button>
 
       {/* Backdrop */}
