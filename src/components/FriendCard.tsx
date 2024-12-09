@@ -10,7 +10,7 @@ export default function FriendCard({ user }: Props) {
   return (
     <Link
       href={`/user/${user.id}`}
-      className="flex items-center gap-4 p-4 text-black !no-underline bg-white rounded hover:shadow-lg transition-shadow"
+      className="flex items-center gap-4 p-4 text-black !no-underline bg-white rounded hover:shadow-md transition-shadow"
     >
       <Image
         src={user.image || '/assets/user-placeholder.webp'}

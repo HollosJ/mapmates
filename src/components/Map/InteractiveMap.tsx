@@ -90,7 +90,7 @@ const InteractiveMap = () => {
 
       {/* Show hovered country name */}
       {hoveredCountry && (
-        <div className="absolute z-50 px-4 py-2 text-white rounded-md shadow-lg top-4 left-1/2 -translate-x-1/2 bg-black/70 hidden sm:block">
+        <div className="absolute z-50 px-4 py-2 text-white rounded-md shadow-md top-4 left-1/2 -translate-x-1/2 bg-black/70 hidden sm:block">
           {hoveredCountry}
         </div>
       )}
