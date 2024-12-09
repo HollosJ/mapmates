@@ -6,9 +6,25 @@ import { notFound } from 'next/navigation';
 type Params = Promise<{ id: string }>;
 
 async function getUserById(id: string): Promise<DBUser | null> {
-  return prisma.user.findUnique({
+  const friend = await prisma.user.findUnique({
     where: { id },
+    include: {
+      sentFriendships: {
+        include: {
+          sender: true, // Include the sender details
+          receiver: true, // Include the receiver details
+        },
+      },
+      receivedFriendships: {
+        include: {
+          receiver: true, // Include the receiver details
+          sender: true, // Include the sender details
+        },
+      },
+    },
   });
+
+  return friend as DBUser | null;
 }
 
 // Dynamically set metadata for the page based on the users name

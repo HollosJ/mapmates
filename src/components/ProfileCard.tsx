@@ -1,9 +1,12 @@
 import FlagList from '@/components/FlagList';
 import StaticMap from '@/components/Map/StaticMap';
+import { rejectFriendRequest, sendFriendRequest } from '@/lib/actions';
+import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
+import CopyProfileLink from './CopyProfileLink';
 
 type Props = {
   user: DBUser;
@@ -12,8 +15,34 @@ type Props = {
 
 const ProfileCard = async ({ user, className }: Props) => {
   if (!user) return null;
+
   const session = await getServerSession();
-  const isCurrentUser = session?.user?.email === user.email;
+
+  if (!session?.user?.email) return null;
+
+  // Find session user in database
+  let sessionUser = await prisma.user.findUnique({
+    where: { email: session?.user?.email },
+  });
+
+  // Check if the current user is the same as the users' profile being displayed
+  let isCurrentUser = session?.user?.email === user.email;
+
+  // Check if any friendships exist between the current user and the user being displayed
+  let friendshipsBetweenUsers = await prisma.friendship.findFirst({
+    where: {
+      OR: [
+        {
+          senderId: sessionUser?.id,
+          receiverId: user.id,
+        },
+        {
+          senderId: user.id,
+          receiverId: sessionUser?.id,
+        },
+      ],
+    },
+  });
 
   return (
     <div
@@ -71,6 +100,47 @@ const ProfileCard = async ({ user, className }: Props) => {
           hasn't visited any countries yet!
         </p>
       )}
+
+      {friendshipsBetweenUsers?.status === 'ACCEPTED' && (
+        <form
+          action={async () => {
+            'use server';
+            await rejectFriendRequest(friendshipsBetweenUsers.id);
+          }}
+        >
+          <button type="submit" className="text-red-700 mt-8">
+            Delete Friend
+          </button>
+        </form>
+      )}
+
+      {friendshipsBetweenUsers?.status === 'PENDING' && (
+        <form
+          action={async () => {
+            'use server';
+            await rejectFriendRequest(friendshipsBetweenUsers.id);
+          }}
+        >
+          <button type="submit" className="text-red-700 mt-8">
+            Cancel Friend Request
+          </button>
+        </form>
+      )}
+
+      {!friendshipsBetweenUsers?.status && !isCurrentUser && (
+        <form
+          action={async () => {
+            'use server';
+            await sendFriendRequest(user.id);
+          }}
+        >
+          <button type="submit" className="btn btn--primary mt-8">
+            Send Friend Request
+          </button>
+        </form>
+      )}
+
+      {isCurrentUser && <CopyProfileLink userId={user.id} className="mt-8" />}
     </div>
   );
 };
