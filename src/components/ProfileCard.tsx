@@ -109,7 +109,7 @@ const ProfileCard = async ({ user, className }: Props) => {
           }}
         >
           <button type="submit" className="text-red-700 mt-8">
-            Delete Friend
+            Remove Friend
           </button>
         </form>
       )}
