@@ -2,23 +2,29 @@
 
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 type Props = {
   className?: string;
+  signInText?: string;
+  signOutText?: string;
 };
 
-const AuthButton = ({ className }: Props) => {
-  const { data: session, status } = useSession();
+const AuthButton = ({ className, signInText, signOutText }: Props) => {
+  const { data: session } = useSession();
 
-  const isLoading = status === 'loading';
+  const [isLoading, setIsLoading] = useState(false);
 
   return session ? (
     <button
       className={`btn btn--secondary ${className || ''}`}
-      onClick={() => signOut()}
+      onClick={() => {
+        setIsLoading(true);
+        signOut().catch(() => setIsLoading(false));
+      }}
       disabled={isLoading}
     >
-      Sign out
+      {isLoading ? 'Loading...' : signOutText || 'Sign out'}
       <Image
         className="ml-2 rounded-full size-6"
         src={session.user?.image || '/assets/user-placeholder.webp'}
@@ -30,10 +36,13 @@ const AuthButton = ({ className }: Props) => {
   ) : (
     <button
       className={`btn btn--primary ${className || ''}`}
-      onClick={() => signIn('google', { callbackUrl: '/profile' })}
+      onClick={() => {
+        setIsLoading(true);
+        signIn().catch(() => setIsLoading(false));
+      }}
       disabled={isLoading}
     >
-      Sign in
+      {isLoading ? 'Loading...' : signInText || 'Sign in'}
     </button>
   );
 };
