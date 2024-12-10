@@ -47,7 +47,7 @@ export default async function FriendsPage() {
 
   return (
     <div className="container py-8 text-white md:py-16 md:max-w-screen-md">
-      <h1 className="text-3xl font-black text-white md:text-5xl">
+      <h1 className="text-3xl font-bold text-white md:text-5xl">
         My Map Mates
       </h1>
 
