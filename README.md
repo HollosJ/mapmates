@@ -7,7 +7,7 @@ MapMates is a social scratch map application where users can log their visited c
 ## Features
 
 - **Interactive scratch map**: Mark countries as visited with a single click.
-- **Friend requests**: Add friends, view their profiles, and their scratch maps.
+- **Friends functionality**: Add friends, view their profiles, and their scratch maps.
 - **Google Login**: Sign in with your Google account.
 
 ## Tech Stack
