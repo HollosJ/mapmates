@@ -25,6 +25,7 @@ export default async function HomePage() {
           width={500}
           height={500}
           className="mt-8"
+          priority
         />
       </section>
 
