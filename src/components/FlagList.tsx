@@ -14,11 +14,27 @@ export default function FlagList({ countries, className }: Props) {
 
   if (error) return;
 
-  return (
-    <div className={`flex flex-wrap gap-2 ${className || ''}`}>
-      {data.map((country: Country) => (
-        <FlagIcon key={country.ccn3} country={country} />
-      ))}
-    </div>
-  );
+  if (data.length === 0)
+    return (
+      <div className={`flex flex-wrap gap-2  ${className || ''}`}>
+        {countries.map((country) => {
+          return (
+            <div
+              key={country}
+              className="w-16 h-12  rounded bg-gray-200 animate-pulse"
+            ></div>
+          );
+        })}
+      </div>
+    );
+
+  if (data.length > 0)
+    return (
+      <div className={`flex flex-wrap gap-2  ${className || ''}`}>
+        {data.length > 0 &&
+          data.map((country: Country) => (
+            <FlagIcon key={country.ccn3} country={country} />
+          ))}
+      </div>
+    );
 }
