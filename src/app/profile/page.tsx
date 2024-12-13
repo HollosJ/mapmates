@@ -6,7 +6,6 @@ import { getServerSession } from 'next-auth';
 //Metadata
 export const metadata: Metadata = {
   title: 'My Profile | Map Mates',
-  description: 'Show off your own online scratch map',
 };
 
 export default async function ProfilePage() {

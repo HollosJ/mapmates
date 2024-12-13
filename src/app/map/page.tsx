@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Your Map | Map Mates',
-  description: 'Show off your own online scratch map',
 };
 
 const MyMapPage = async () => {

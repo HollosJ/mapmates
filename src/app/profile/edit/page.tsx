@@ -1,4 +1,9 @@
 import EditProfileForm from '@/components/EditProfileForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Edit Profile | Map Mates',
+};
 
 export default async function EditProfilePage() {
   return (

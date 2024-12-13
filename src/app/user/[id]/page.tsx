@@ -35,7 +35,6 @@ export async function generateMetadata({ params }: { params: Params }) {
 
   return {
     title: `${user?.name || 'User'} | Map Mates`,
-    description: `Show off your own online scratch map`,
   };
 }
 
