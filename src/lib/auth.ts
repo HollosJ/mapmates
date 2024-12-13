@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
           image: user.image || '',
         },
         update: {
-          name: user.name || user.email,
           image: user.image || '',
         },
       });
