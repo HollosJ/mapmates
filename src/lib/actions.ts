@@ -3,6 +3,8 @@
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
 // Friendship actions
 export async function acceptFriendRequest(friendshipId: string) {
@@ -66,7 +68,6 @@ export async function sendFriendRequest(receiverId: string) {
     },
   });
 
-  // Optionally, trigger revalidation for the friends page
   revalidatePath('/friends');
 
   return newFriendship;
@@ -113,4 +114,63 @@ export async function toggleVisitedCountry(countryId: string) {
   revalidatePath('/map');
 
   return updatedUser;
+}
+
+// Profile actions
+const updateProfileSchema = z.object({
+  name: z
+    .string()
+    .min(1, 'Display name is required')
+    .max(30, 'Display name is too long')
+    .nonempty('Invalid name')
+    .regex(
+      /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9_ ]+$/,
+      'Username can only contain letters, numbers, and underscores'
+    ),
+  theme: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+  visibility: z.enum(['ALL', 'FRIENDS', 'HIDDEN']),
+});
+
+export async function updateProfile(_: any, formData: FormData) {
+  // Validate the form data
+  const parsedData = updateProfileSchema.safeParse({
+    name: formData.get('name'),
+    theme: formData.get('theme'),
+    visibility: formData.get('visibility'),
+  });
+
+  // Handle validation errors
+  if (!parsedData.success) {
+    const errors = parsedData.error.flatten().fieldErrors;
+
+    return { success: '', errors: Object.values(errors).flat() };
+  }
+
+  // Check if the user is authenticated
+  const session = await getServerSession();
+
+  if (!session || !session.user?.email)
+    return {
+      success: '',
+      errors: ['Unauthorized'],
+    };
+
+  // Update the user's profile and send the user back to their profile page
+  await prisma.user.updateMany({
+    where: {
+      email: session.user.email,
+    },
+    data: {
+      name: parsedData.data.name,
+      theme: parsedData.data.theme,
+      visibility: parsedData.data.visibility,
+    },
+  });
+
+  redirect('/profile');
+
+  return {
+    success: 'Profile updated successfully',
+    errors: [],
+  };
 }
