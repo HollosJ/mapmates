@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const MyMapPage = async () => {
   return (
     <>
-      <h1 className="absolute top-4 left-0 px-4 py-2 text-lg bg-white rounded-e-lg">
+      <h1 className="absolute top-4 left-0 px-4 py-2 text-lg bg-white rounded-e-lg shadow-md">
         Where have you visited?
       </h1>
 
