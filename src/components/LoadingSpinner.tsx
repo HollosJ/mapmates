@@ -5,7 +5,7 @@ type Props = {
 export default function LoadingSpinner({ className }: Props) {
   return (
     <div
-      className={`border-2 border-indigo-800 rounded-full border-r-indigo-300 size-16 animate-spin ${
+      className={`border-2 border-white rounded-full border-r-black size-4 animate-spin ${
         className || ''
       }`}
     ></div>
