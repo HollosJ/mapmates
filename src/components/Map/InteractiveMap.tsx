@@ -1,6 +1,7 @@
 'use client';
 
 import geoJson from '@/app/countries-110m.json';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import {
   ComposableMap,
@@ -82,7 +83,7 @@ const InteractiveMap = () => {
       {loading && (
         <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-dvw h-dvh bg-black/50">
           <div className="flex items-center justify-center">
-            <div className="w-8 h-8 mr-2 border-2 border-gray-200 rounded-full animate-spin border-t-gray-600"></div>
+            <LoadingSpinner className="mr-2" />
             <p className="text-white">Loading...</p>
           </div>
         </div>
