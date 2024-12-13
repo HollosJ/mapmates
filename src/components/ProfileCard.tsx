@@ -1,3 +1,4 @@
+import CopyProfileLink from '@/components/CopyProfileLink';
 import FlagList from '@/components/FlagList';
 import StaticMap from '@/components/Map/StaticMap';
 import { rejectFriendRequest, sendFriendRequest } from '@/lib/actions';
@@ -6,7 +7,6 @@ import { DBUser } from '@/types';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import CopyProfileLink from './CopyProfileLink';
 
 type Props = {
   user: DBUser;
@@ -52,6 +52,12 @@ const ProfileCard = async ({ user, className }: Props) => {
         className || ''
       } bg-white rounded border shadow md:p-8 p-4 flex flex-col items-center md:max-w-screen-sm`}
     >
+      {isCurrentUser && (
+        <Link href="/profile/edit" className="text-indigo-500 mb-4 text-sm">
+          Edit Profile
+        </Link>
+      )}
+
       {user.image && (
         <Image
           src={user.image || ''}
