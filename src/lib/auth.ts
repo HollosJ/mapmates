@@ -26,6 +26,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name || user.email,
           image: user.image || '',
+          visitedCountries: [],
+          visibility: 'ALL',
         },
         update: {
           image: user.image || '',
