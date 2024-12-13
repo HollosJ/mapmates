@@ -10,11 +10,15 @@ datasource db {
 model User {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
   email               String       @unique
-  name                String
   image               String // Profile image (comes from Google account)
   visitedCountries    String[] // Array of CCN3 codes (ISO 3166-1 alpha-3)
   sentFriendships     Friendship[] @relation("SenderFriendship")
   receivedFriendships Friendship[] @relation("ReceiverFriendship")
+
+  // Profile settings
+  name       String
+  theme      String?    @default("4338ca")
+  visibility visibility @default(ALL)
 }
 
 model Friendship {
@@ -29,4 +33,10 @@ model Friendship {
 enum FriendshipStatus {
   PENDING
   ACCEPTED
+}
+
+enum visibility {
+  ALL
+  FRIENDS
+  HIDDEN
 }
