@@ -17,6 +17,8 @@ export type DBUser = {
   visitedCountries: string[];
   sentFriendships?: DBFriendship[];
   receivedFriendships?: DBFriendship[];
+  theme: string | null;
+  visibility: string;
 };
 
 export type DBFriendship = {
