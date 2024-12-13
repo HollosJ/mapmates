@@ -29,3 +29,17 @@ body {
 a:not(.btn) {
   @apply hover:underline;
 }
+
+/* Inputs */
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+select,
+textarea {
+  @apply border rounded p-2 w-full;
+}
+
+input[type='color'] {
+  @apply border rounded p-0 size-8 border-none;
+}
