@@ -1,3 +1,4 @@
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
@@ -5,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     // Check if person making the request has a user session
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (!session || !session.user?.email) {
       return NextResponse.json({ error: 'Session not found' }, { status: 401 });
@@ -36,7 +37,7 @@ export async function GET() {
 
 export async function PATCH(req: Request) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     if (!session) {
       return NextResponse.json(

@@ -1,4 +1,5 @@
 import ProfileCard from '@/components/ProfileCard';
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   const user = await prisma.user.findUnique({
     where: {

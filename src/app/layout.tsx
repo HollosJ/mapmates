@@ -1,5 +1,6 @@
 import Nav from '@/components/Nav';
 import SessionProvider from '@/components/SessionProvider';
+import { authOptions } from '@/lib/auth';
 import type { Metadata, Viewport } from 'next';
 import { getServerSession } from 'next-auth';
 import localFont from 'next/font/local';
@@ -25,7 +26,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">

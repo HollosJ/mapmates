@@ -1,11 +1,12 @@
 import FriendCard from '@/components/FriendCard';
 import FriendRequestCard from '@/components/FriendRequestCard';
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
 import { getServerSession } from 'next-auth';
 
 export default async function FriendsPage() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   const userWithFriends = await prisma.user.findUnique({
     where: {

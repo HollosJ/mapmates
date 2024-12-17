@@ -2,6 +2,7 @@ import CopyProfileLink from '@/components/CopyProfileLink';
 import FlagList from '@/components/FlagList';
 import StaticMap from '@/components/Map/StaticMap';
 import { rejectFriendRequest, sendFriendRequest } from '@/lib/actions';
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
 import { getServerSession } from 'next-auth';
@@ -16,7 +17,7 @@ type Props = {
 const ProfileCard = async ({ user, className }: Props) => {
   if (!user) return null;
 
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   let sessionUser = null;
 

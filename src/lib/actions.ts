@@ -5,11 +5,12 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { authOptions } from './auth';
 
 // Friendship actions
 export async function acceptFriendRequest(friendshipId: string) {
   // Get the user's email from the session
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session) {
     throw new Error('Unauthorized: No user session found');
@@ -45,7 +46,7 @@ export async function rejectFriendRequest(friendshipId: string) {
 
 export async function sendFriendRequest(receiverId: string) {
   // Get the user's email from the session
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
     throw new Error('Unauthorized: No user session found');
@@ -76,7 +77,7 @@ export async function sendFriendRequest(receiverId: string) {
 // Visited countries actions
 export async function toggleVisitedCountry(countryId: string) {
   // Get the user's email from the session
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
     throw new Error('Unauthorized: No user session found');
@@ -159,7 +160,7 @@ export async function updateProfile(_: any, formData: FormData) {
   }
 
   // Check if the user is authenticated
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email)
     return {
