@@ -12,24 +12,13 @@ export async function GET() {
     where: {
       email: session.user.email,
     },
-    select: {
-      name: true,
-      theme: true,
-      visibility: true,
-    },
   });
 
   if (!user) {
     return new Response('User not found', { status: 404 });
   }
 
-  const data = {
-    name: user.name,
-    theme: user.theme,
-    visibility: user.visibility,
-  };
-
-  return new Response(JSON.stringify(data), {
+  return new Response(JSON.stringify(user), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
