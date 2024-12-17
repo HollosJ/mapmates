@@ -90,6 +90,10 @@ const ProfileCard = async ({ user, className }: Props) => {
               <StaticMap
                 visitedCountries={user.visitedCountries}
                 className=" bg-slate-200"
+                // Theme colors
+                backgroundColor={user.backgroundColor}
+                unvisitedCountryColor={user.unvisitedCountryColor}
+                visitedCountryColor={user.visitedCountryColor}
               />
 
               <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
