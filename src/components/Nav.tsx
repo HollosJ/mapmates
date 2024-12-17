@@ -89,6 +89,18 @@ const Nav = () => {
         )}
 
         <AuthButton className="mt-2" />
+
+        {/* Copyright details */}
+        <div className="mt-4 text-center text-sm text-gray-500">
+          &copy; {new Date().getFullYear()}{' '}
+          <Link
+            className="underline"
+            href="https://www.hollos.dev/"
+            target="_blank"
+          >
+            James Hollos
+          </Link>
+        </div>
       </aside>
     </nav>
   );

@@ -55,7 +55,7 @@ export default async function HomePage() {
       </section>
 
       <footer className="container md:max-w-screen-lg text-center text-white">
-        © 2024{' '}
+        © {new Date().getFullYear()}{' '}
         <Link
           href="https://www.hollos.dev/"
           target="_blank"
