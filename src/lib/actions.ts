@@ -127,15 +127,27 @@ const updateProfileSchema = z.object({
       /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9_ ]+$/,
       'Username can only contain letters, numbers, and underscores'
     ),
-  theme: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+
   visibility: z.enum(['ALL', 'FRIENDS', 'HIDDEN']),
+
+  backgroundColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+  unvisitedCountryColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+  visitedCountryColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
 });
 
 export async function updateProfile(_: any, formData: FormData) {
   // Validate the form data
   const parsedData = updateProfileSchema.safeParse({
     name: formData.get('name'),
-    theme: formData.get('theme'),
+    backgroundColor: formData.get('backgroundColor'),
+    unvisitedCountryColor: formData.get('unvisitedCountryColor'),
+    visitedCountryColor: formData.get('visitedCountryColor'),
     visibility: formData.get('visibility'),
   });
 
@@ -162,7 +174,9 @@ export async function updateProfile(_: any, formData: FormData) {
     },
     data: {
       name: parsedData.data.name,
-      theme: parsedData.data.theme,
+      backgroundColor: parsedData.data.backgroundColor,
+      unvisitedCountryColor: parsedData.data.unvisitedCountryColor,
+      visitedCountryColor: parsedData.data.visitedCountryColor,
       visibility: parsedData.data.visibility,
     },
   });

@@ -1,9 +1,10 @@
 'use client';
 
 import FormError from '@/components/FormError';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import StaticMap from '@/components/Map/StaticMap';
 import { updateProfile } from '@/lib/actions';
 import { useActionState, useEffect, useState } from 'react';
-import LoadingSpinner from './LoadingSpinner';
 
 const initialState: {
   success: string;
@@ -19,9 +20,14 @@ export default function EditProfileForm() {
     initialState
   );
   const [formFieldState, setFormFieldState] = useState({
+    // Profile settings
     name: '',
-    theme: '#000000',
     visibility: 'ALL',
+
+    // Personalization
+    backgroundColor: '#fff',
+    unvisitedCountryColor: '#fff',
+    visitedCountryColor: '#5bc35b',
   });
   const [loading, setLoading] = useState(true);
 
@@ -34,8 +40,10 @@ export default function EditProfileForm() {
 
         setFormFieldState({
           name: data.name,
-          theme: data.theme,
           visibility: data.visibility,
+          backgroundColor: data.backgroundColor,
+          unvisitedCountryColor: data.unvisitedCountryColor,
+          visitedCountryColor: data.visitedCountryColor,
         });
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -57,6 +65,8 @@ export default function EditProfileForm() {
 
   return (
     <form className="w-full space-y-4" action={formAction}>
+      <h2 className="text-lg font-bold">Settings</h2>
+
       {/* Name */}
       <div>
         <label htmlFor="name">Display Name</label>
@@ -74,44 +84,107 @@ export default function EditProfileForm() {
         />
       </div>
 
-      <div className="sm:grid-cols-2 gap-4 hidden">
-        <div className="flex items-center gap-2 whitespace-nowrap">
-          <label htmlFor="visibility">Profile Visibility</label>
+      <div className="hidden">
+        <label htmlFor="visibility">Profile Visibility</label>
 
-          <select
-            name="visibility"
-            id="visibility"
-            className="border rounded"
-            value={formFieldState.visibility}
-            onChange={(e) =>
-              setFormFieldState({
-                ...formFieldState,
-                visibility: e.target.value,
-              })
-            }
-            required
-          >
-            <option value="ALL">All</option>
-            <option value="FRIENDS">Friends only</option>
-            <option value="HIDDEN">Hidden</option>
-          </select>
-        </div>
-
-        <div className="flex items-center gap-2 ">
-          <label htmlFor="theme">Theme Color</label>
-
-          <input
-            type="color"
-            name="theme"
-            id="theme"
-            className="border rounded cursor-pointer"
-            value={formFieldState.theme}
-            onChange={(e) =>
-              setFormFieldState({ ...formFieldState, theme: e.target.value })
-            }
-          />
-        </div>
+        <select
+          name="visibility"
+          id="visibility"
+          className="border rounded"
+          value={formFieldState.visibility}
+          onChange={(e) =>
+            setFormFieldState({
+              ...formFieldState,
+              visibility: e.target.value,
+            })
+          }
+          required
+        >
+          <option value="ALL">All</option>
+          <option value="FRIENDS">Friends only</option>
+          <option value="HIDDEN">Hidden</option>
+        </select>
       </div>
+
+      <hr />
+
+      {/* Personalization */}
+      <h2 className="text-lg font-bold">Personalization</h2>
+
+      <div className="flex gap-2 items-center">
+        <label htmlFor="backgroundColor">Background Color</label>
+
+        <input
+          type="color"
+          name="backgroundColor"
+          id="backgroundColor"
+          className="border rounded p-2 w-full"
+          value={formFieldState.backgroundColor}
+          onChange={(e) =>
+            setFormFieldState({
+              ...formFieldState,
+              backgroundColor: e.target.value,
+            })
+          }
+        />
+      </div>
+
+      <div className="flex gap-2 items-center">
+        <label htmlFor="unvisitedCountryColor">Unvisited Country Color</label>
+
+        <input
+          type="color"
+          name="unvisitedCountryColor"
+          id="unvisitedCountryColor"
+          className="border rounded p-2 w-full"
+          value={formFieldState.unvisitedCountryColor}
+          onChange={(e) =>
+            setFormFieldState({
+              ...formFieldState,
+              unvisitedCountryColor: e.target.value,
+            })
+          }
+        />
+      </div>
+
+      <div className="flex gap-2 items-center">
+        <label htmlFor="visitedCountryColor">Visited Country Color</label>
+
+        <input
+          type="color"
+          name="visitedCountryColor"
+          id="visitedCountryColor"
+          className="border rounded p-2 w-full"
+          value={formFieldState.visitedCountryColor}
+          onChange={(e) =>
+            setFormFieldState({
+              ...formFieldState,
+              visitedCountryColor: e.target.value,
+            })
+          }
+        />
+      </div>
+
+      <StaticMap
+        visitedCountries={[
+          '826',
+          '352',
+          '578',
+          '276',
+          '616',
+          '191',
+          '300',
+          '528',
+          '752',
+          '724',
+          '428',
+          '246',
+          '380',
+        ]}
+        backgroundColor={formFieldState.backgroundColor}
+        unvisitedCountryColor={formFieldState.unvisitedCountryColor}
+        visitedCountryColor={formFieldState.visitedCountryColor}
+      />
 
       <button
         className="btn btn--primary place-self-end"

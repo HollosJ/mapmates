@@ -15,6 +15,10 @@ const InteractiveMap = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
+  const [themeBackground, setThemeBackground] = useState<string>('#fff');
+  const [themeUnvisited, setThemeUnvisited] = useState<string>('#fff');
+  const [themeVisited, setThemeVisited] = useState<string>('#5bc35b');
+
   async function handleCountrySelect({ id }: { id: string }) {
     if (loading) return;
 
@@ -58,7 +62,7 @@ const InteractiveMap = () => {
   useEffect(() => {
     async function fetchVisitedCountries() {
       try {
-        const response = await fetch('/api/user-countries');
+        const response = await fetch('/api/user');
 
         if (!response.ok) {
           throw new Error("Failed to fetch users' visited countries");
@@ -67,10 +71,13 @@ const InteractiveMap = () => {
         const data = await response.json();
 
         setVisitedCountries(data.visitedCountries);
+        setThemeBackground(data.backgroundColor);
+        setThemeUnvisited(data.unvisitedCountryColor);
+        setThemeVisited(data.visitedCountryColor);
+
+        setLoading(false);
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -100,6 +107,7 @@ const InteractiveMap = () => {
         style={{
           height: '100dvh',
           width: '100dvw',
+          background: themeBackground,
         }}
       >
         <ZoomableGroup>
@@ -108,18 +116,17 @@ const InteractiveMap = () => {
               geographies.map((geo) => (
                 <Geography
                   key={geo.rsmKey}
-                  className={`cursor-pointer transition-all stroke-[0.25] outline-none stroke-black ${
-                    visitedCountries.includes(geo.id)
-                      ? 'fill-[#5bc35b]'
-                      : 'fill-[#fff]'
-                  }`}
+                  className={`cursor-pointer transition-all stroke-[0.25] outline-none hover:brightness-125 stroke-black`}
                   geography={geo}
                   style={{
                     default: {
                       transition: 'all 250ms ease-in-out',
+                      fill: visitedCountries.includes(geo.id)
+                        ? themeVisited
+                        : themeUnvisited,
                     },
                     hover: {
-                      filter: 'brightness(1.1)',
+                      fill: themeVisited,
                       cursor: `${loading ? 'wait' : 'pointer'}`,
                     },
                   }}
