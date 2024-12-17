@@ -17,8 +17,12 @@ model User {
 
   // Profile settings
   name       String
-  theme      String?    @default("4338ca")
   visibility visibility @default(ALL)
+
+  // Map personalization
+  backgroundColor       String? @default("#fff")
+  unvisitedCountryColor String? @default("#fff")
+  visitedCountryColor   String? @default("#5bc35b")
 }
 
 model Friendship {
