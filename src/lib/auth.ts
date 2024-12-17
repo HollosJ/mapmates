@@ -28,7 +28,11 @@ export const authOptions: NextAuthOptions = {
           image: user.image || '',
           visitedCountries: [],
           visibility: 'ALL',
-          theme: '#5bc35b',
+
+          // Theme colors
+          backgroundColor: '#fff',
+          unvisitedCountryColor: '#f3f3f3',
+          visitedCountryColor: '#5bc35b',
         },
         update: {
           image: user.image || '',
