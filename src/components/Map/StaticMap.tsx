@@ -16,15 +16,15 @@ type Props = {
 export default function StaticMap({
   visitedCountries,
   className,
-  backgroundColor,
-  unvisitedCountryColor,
-  visitedCountryColor,
+  backgroundColor = '#fff',
+  unvisitedCountryColor = '#f3f3f3',
+  visitedCountryColor = '#5bc35b',
 }: Props) {
   return (
     <div
       className={`relative ${className || ''}`}
       style={{
-        backgroundColor: backgroundColor || '#fff',
+        backgroundColor: backgroundColor,
       }}
     >
       <ComposableMap style={{ width: '100%', height: '100%' }}>
@@ -38,8 +38,8 @@ export default function StaticMap({
                 style={{
                   default: {
                     fill: visitedCountries.includes(geo.id)
-                      ? visitedCountryColor || '#5bc35b'
-                      : unvisitedCountryColor || '#f3f3f3',
+                      ? visitedCountryColor
+                      : unvisitedCountryColor,
                   },
                 }}
               />
