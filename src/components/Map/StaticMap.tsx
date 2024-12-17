@@ -34,7 +34,7 @@ export default function StaticMap({
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                className={`transition-all stroke-[0.25] outline-none pointer-events-none`}
+                className={`transition-all stroke-[0.25] stroke-black outline-none pointer-events-none`}
                 style={{
                   default: {
                     fill: visitedCountries.includes(geo.id)
