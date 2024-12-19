@@ -109,6 +109,7 @@ const InteractiveMap = () => {
           width: '100dvw',
           background: themeBackground,
         }}
+        projection="geoMercator"
       >
         <ZoomableGroup>
           <Geographies geography={geoJson} key={'countries'}>

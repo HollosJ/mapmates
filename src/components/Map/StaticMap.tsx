@@ -27,7 +27,10 @@ export default function StaticMap({
         backgroundColor: backgroundColor,
       }}
     >
-      <ComposableMap style={{ width: '100%', height: '100%' }}>
+      <ComposableMap
+        style={{ width: '100%', height: '100%' }}
+        projection="geoMercator"
+      >
         <Geographies geography={geoJson}>
           {({ geographies }) =>
             geographies.map((geo) => (
