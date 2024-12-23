@@ -49,7 +49,7 @@ export default async function UserProfilePage({ params }: { params: Params }) {
     <div
       className="min-h-dvh"
       style={{
-        backgroundColor: user.backgroundColor || '#fff',
+        backgroundColor: user.backgroundColor || '#4238c9',
       }}
     >
       <div className="container py-8 md:py-16">
