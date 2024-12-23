@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
           visibility: 'ALL',
 
           // Theme colors
-          backgroundColor: '#fff',
+          backgroundColor: '#4238c9',
           unvisitedCountryColor: '#f3f3f3',
           visitedCountryColor: '#5bc35b',
         },
