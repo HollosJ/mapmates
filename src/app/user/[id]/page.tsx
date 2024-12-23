@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   };
 }
 
-export default async function Page({ params }: { params: Params }) {
+export default async function UserProfilePage({ params }: { params: Params }) {
   // Get the user based on the ID in the URL params
   const { id } = await params;
   const user = await getUserById(id);
@@ -46,8 +46,15 @@ export default async function Page({ params }: { params: Params }) {
   if (!user) notFound();
 
   return (
-    <div className="container py-8 md:py-16">
-      <ProfileCard user={user} className="mx-auto" />
+    <div
+      className="min-h-dvh"
+      style={{
+        backgroundColor: user.backgroundColor || '#fff',
+      }}
+    >
+      <div className="container py-8 md:py-16">
+        <ProfileCard user={user} className="mx-auto" />
+      </div>
     </div>
   );
 }

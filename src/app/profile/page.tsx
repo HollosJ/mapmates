@@ -21,8 +21,15 @@ export default async function ProfilePage() {
   if (!user) return <div>User not found</div>;
 
   return (
-    <div className="container py-8 md:py-16">
-      <ProfileCard user={user} className="mx-auto" />
+    <div
+      className="min-h-dvh"
+      style={{
+        backgroundColor: user.backgroundColor || '#fff',
+      }}
+    >
+      <div className="container py-8 md:py-16">
+        <ProfileCard user={user} className="mx-auto" />
+      </div>
     </div>
   );
 }
