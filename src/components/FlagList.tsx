@@ -7,9 +7,14 @@ import { Country } from '@/types';
 type Props = {
   countries: string[];
   className?: string;
+  comparisonArray?: string[];
 };
 
-export default function FlagList({ countries, className }: Props) {
+export default function FlagList({
+  countries,
+  className,
+  comparisonArray,
+}: Props) {
   const { countries: data, error } = useCountriesByCCN3(countries);
 
   if (error) return;
@@ -33,7 +38,11 @@ export default function FlagList({ countries, className }: Props) {
       <div className={`flex flex-wrap gap-2  ${className || ''}`}>
         {data.length > 0 &&
           data.map((country: Country) => (
-            <FlagIcon key={country.ccn3} country={country} />
+            <FlagIcon
+              key={country.ccn3}
+              country={country}
+              isHighlighted={comparisonArray?.includes(country.ccn3)}
+            />
           ))}
       </div>
     );

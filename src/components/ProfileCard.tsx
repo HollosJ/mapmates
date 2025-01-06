@@ -79,8 +79,11 @@ const ProfileCard = async ({ user, className }: Props) => {
           </p>
 
           <FlagList
-            countries={user.visitedCountries}
             className="justify-center"
+            countries={user.visitedCountries}
+            comparisonArray={
+              !isCurrentUser ? sessionUser?.visitedCountries : []
+            }
           />
 
           {isCurrentUser ? (
