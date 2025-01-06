@@ -37,7 +37,7 @@ const Nav = () => {
         className="absolute right-4 top-4 bg-white p-2 shadow-md rounded"
         aria-label="Open navigation"
       >
-        <Bars3Icon className="size-6" />
+        <Bars3Icon className="size-6 md:size-8" />
       </button>
 
       {/* Backdrop */}
