@@ -117,7 +117,7 @@ const InteractiveMap = () => {
               geographies.map((geo) => (
                 <Geography
                   key={geo.rsmKey}
-                  className={`cursor-pointer transition-all stroke-[0.25] outline-none hover:brightness-125 stroke-black`}
+                  className={`cursor-pointer transition-all stroke-[0.25] outline-none hover:opacity-50 stroke-black`}
                   geography={geo}
                   style={{
                     default: {
@@ -127,7 +127,9 @@ const InteractiveMap = () => {
                         : themeUnvisited,
                     },
                     hover: {
-                      fill: themeVisited,
+                      fill: visitedCountries.includes(geo.id)
+                        ? themeVisited
+                        : themeUnvisited,
                       cursor: `${loading ? 'wait' : 'pointer'}`,
                     },
                   }}
