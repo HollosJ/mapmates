@@ -2,7 +2,7 @@
 
 import geoJson from '@/app/countries-110m.json';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useOptimistic, useTransition } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -12,15 +12,43 @@ import {
 
 const InteractiveMap = () => {
   const [visitedCountries, setVisitedCountries] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [optimisticVisitedCountries, setOptimisticVisitedCountries] =
+    useOptimistic<string[]>(visitedCountries);
+  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
   const [themeBackground, setThemeBackground] = useState<string>('#fff');
   const [themeUnvisited, setThemeUnvisited] = useState<string>('#fff');
   const [themeVisited, setThemeVisited] = useState<string>('#5bc35b');
 
+  useEffect(() => {
+    async function fetchVisitedCountries() {
+      try {
+        const response = await fetch('/api/user');
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users' visited countries");
+        }
+
+        const data = await response.json();
+
+        setVisitedCountries(data.visitedCountries);
+        setThemeBackground(data.backgroundColor);
+        setThemeUnvisited(data.unvisitedCountryColor);
+        setThemeVisited(data.visitedCountryColor);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchVisitedCountries();
+  }, []);
+
   async function handleCountrySelect({ id }: { id: string }) {
-    if (loading) return;
+    if (isPending) return;
 
     if (!id) {
       console.error(
@@ -34,7 +62,7 @@ const InteractiveMap = () => {
       ? visitedCountries.filter((country) => country !== id)
       : [...visitedCountries, id];
 
-    setLoading(true);
+    setOptimisticVisitedCountries(newVisitedCountries);
 
     try {
       const response = await fetch('/api/user-countries', {
@@ -55,39 +83,14 @@ const InteractiveMap = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
-  useEffect(() => {
-    async function fetchVisitedCountries() {
-      try {
-        const response = await fetch('/api/user');
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch users' visited countries");
-        }
-
-        const data = await response.json();
-
-        setVisitedCountries(data.visitedCountries);
-        setThemeBackground(data.backgroundColor);
-        setThemeUnvisited(data.unvisitedCountryColor);
-        setThemeVisited(data.visitedCountryColor);
-
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchVisitedCountries();
-  }, []);
-
   return (
     <>
-      {/* Show the user that it is updating the map */}
-      {loading && (
+      {/* Shows as page loads (TO DO: REPLACE WITH SUSPENSE) */}
+      {isLoading && (
         <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-dvw h-dvh bg-black/50">
           <div className="flex items-center justify-center">
             <LoadingSpinner className="mr-2" />
@@ -122,22 +125,24 @@ const InteractiveMap = () => {
                   style={{
                     default: {
                       transition: 'all 250ms ease-in-out',
-                      fill: visitedCountries.includes(geo.id)
+                      fill: optimisticVisitedCountries.includes(geo.id)
                         ? themeVisited
                         : themeUnvisited,
                     },
                     hover: {
-                      fill: visitedCountries.includes(geo.id)
+                      fill: optimisticVisitedCountries.includes(geo.id)
                         ? themeVisited
                         : themeUnvisited,
-                      cursor: `${loading ? 'wait' : 'pointer'}`,
+                      cursor: `${isPending ? 'wait' : 'pointer'}`,
                     },
                   }}
                   onMouseEnter={() =>
                     setHoveredCountry(geo.properties.name || 'Unknown Country')
                   }
                   onMouseLeave={() => setHoveredCountry(null)}
-                  onClick={() => handleCountrySelect(geo)}
+                  onClick={() =>
+                    startTransition(() => handleCountrySelect({ id: geo.id }))
+                  }
                 />
               ))
             }
