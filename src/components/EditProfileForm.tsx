@@ -4,6 +4,7 @@ import FormError from '@/components/FormError';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import StaticMap from '@/components/Map/StaticMap';
 import { updateProfile } from '@/lib/actions';
+import Link from 'next/link';
 import { useActionState, useEffect, useState } from 'react';
 
 const initialState: {
@@ -30,6 +31,26 @@ export default function EditProfileForm() {
     visitedCountryColor: '#5bc35b',
   });
   const [loading, setLoading] = useState(true);
+
+  const PREVIEW_COUNTRY_CODES = [
+    '032',
+    '124',
+    '156',
+    '191',
+    '246',
+    '276',
+    '300',
+    '352',
+    '380',
+    '428',
+    '528',
+    '578',
+    '616',
+    '710',
+    '724',
+    '752',
+    '826',
+  ];
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -165,35 +186,27 @@ export default function EditProfileForm() {
         />
       </div>
 
-      <StaticMap
-        visitedCountries={[
-          '826',
-          '352',
-          '578',
-          '276',
-          '616',
-          '191',
-          '300',
-          '528',
-          '752',
-          '724',
-          '428',
-          '246',
-          '380',
-        ]}
-        backgroundColor={formFieldState.backgroundColor}
-        unvisitedCountryColor={formFieldState.unvisitedCountryColor}
-        visitedCountryColor={formFieldState.visitedCountryColor}
-      />
+      <div className="relative">
+        <StaticMap
+          visitedCountries={PREVIEW_COUNTRY_CODES}
+          backgroundColor={formFieldState.backgroundColor}
+          unvisitedCountryColor={formFieldState.unvisitedCountryColor}
+          visitedCountryColor={formFieldState.visitedCountryColor}
+        />
+        <h3 className="font-bold absolute top-4 right-4">PREVIEW</h3>
+      </div>
 
-      <button
-        className="btn btn--primary place-self-end"
-        disabled={pending}
-        type="submit"
-      >
-        {pending && <LoadingSpinner className="mr-2" />}
-        {pending ? 'Saving...' : 'Save'}
-      </button>
+      {/* Buttons */}
+      <div className="flex place-self-end gap-2">
+        <Link href={'/profile'} className="btn btn--secondary">
+          Cancel
+        </Link>
+
+        <button className="btn btn--primary " disabled={pending} type="submit">
+          {pending && <LoadingSpinner className="mr-2" />}
+          {pending ? 'Saving...' : 'Save'}
+        </button>
+      </div>
 
       {formState.errors.map((error, index) => (
         <FormError key={index}>{error}</FormError>
