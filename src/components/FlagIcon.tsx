@@ -29,10 +29,6 @@ const FlagIcon = (props: Props) => {
         width={90}
         height={60}
         className={`object-contain w-16 h-12 drop-shadow-md ${className || ''}`}
-        style={{
-          // Add a slight rotation to the flag
-          transform: `rotate(${Math.random() * 10 - 5}deg)`,
-        }}
         priority
       />
 
