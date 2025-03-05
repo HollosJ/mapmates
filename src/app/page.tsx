@@ -29,7 +29,7 @@ export default async function HomePage() {
         />
       </section>
 
-      <section className="bg-indigo-800 text-white my-8 md:my-16 py-8 md:py-16">
+      <section className="bg-indigo-700 text-white my-8 md:my-16 py-8 md:py-16">
         <div className="container md:max-w-screen-lg grid md:grid-cols-3 gap-8 text-center">
           <div className="flex flex-col items-center justify-center">
             <h2 className="font-bold">🌍 Interactive Map</h2>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --colors-primary: #4338ca;
+  --colors-primary: theme('colors.indigo.600');
 }
 
 body {
