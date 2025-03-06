@@ -83,7 +83,7 @@ const Nav = () => {
               className="mt-2 btn btn--primary"
               onClick={close}
             >
-              My MapMates <UserGroupIcon className="ml-2 size-6" />
+              My Map Mates <UserGroupIcon className="ml-2 size-6" />
             </Link>
           </>
         )}

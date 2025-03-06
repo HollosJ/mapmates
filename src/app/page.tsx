@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default async function HomePage() {
   return (
-    <div className="py-8 md:py-16">
+    <div className="py-8 md:py-16 min-h-dvh bg-primary">
       <section className="container grid justify-center md:grid-cols-2 gap-4 md:max-w-screen-lg">
         <div className="flex flex-col justify-center items-start">
           <h1 className="text-5xl md:text-7xl font-bold text-white text-background">

@@ -5,6 +5,7 @@ import { rejectFriendRequest, sendFriendRequest } from '@/lib/actions';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
+import { MapIcon, PencilIcon } from '@heroicons/react/24/solid';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -93,7 +94,7 @@ const ProfileCard = async ({ user, className }: Props) => {
             >
               <StaticMap
                 visitedCountries={user.visitedCountries}
-                className=" bg-slate-200"
+                className="w-full"
                 // Theme colors
                 backgroundColor={user.backgroundColor || '#fff'}
                 unvisitedCountryColor={user.unvisitedCountryColor || '#f3f3f3'}
@@ -101,13 +102,16 @@ const ProfileCard = async ({ user, className }: Props) => {
               />
 
               <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
-                <p className="text-white">View your Map</p>
+                <p className="text-white flex items-center justify-center">
+                  Edit your Map
+                  <PencilIcon className="ml-2 w-4 h-4" />
+                </p>
               </div>
             </Link>
           ) : (
             <StaticMap
               visitedCountries={user.visitedCountries}
-              className="w-full mt-8 rounded bg-slate-200"
+              className="w-full mt-8 rounded"
               backgroundColor={user.backgroundColor || '#fff'}
               unvisitedCountryColor={user.unvisitedCountryColor || '#f3f3f3'}
               visitedCountryColor={user.visitedCountryColor || '#5bc35b'}
@@ -115,9 +119,21 @@ const ProfileCard = async ({ user, className }: Props) => {
           )}
         </>
       ) : (
-        <p className="mt-2 text-sm text-gray-600">
-          hasn't visited any countries yet!
-        </p>
+        <div>
+          <p className="mt-2 text-sm text-gray-600">
+            hasn't visited any countries yet!
+          </p>
+
+          <Link
+            href="/map"
+            className="mt-4 md:mt-8 flex flex-col items-center gap-4"
+          >
+            <button className="btn btn--primary">
+              Start Mapping
+              <MapIcon className="size-6 ml-2" />
+            </button>
+          </Link>
+        </div>
       )}
 
       {friendshipBetweenUsers?.status === 'ACCEPTED' && sessionUser && (

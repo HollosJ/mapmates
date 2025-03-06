@@ -1,9 +1,11 @@
+import CopyProfileLink from '@/components/CopyProfileLink';
 import FriendCard from '@/components/FriendCard';
 import FriendRequestCard from '@/components/FriendRequestCard';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { DBUser } from '@/types';
 import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 
 export default async function FriendsPage() {
   const session = await getServerSession(authOptions);
@@ -47,10 +49,8 @@ export default async function FriendsPage() {
     ) || [];
 
   return (
-    <div className="container py-8 text-white md:py-16 md:max-w-screen-md">
-      <h1 className="text-3xl font-bold text-white md:text-5xl">
-        My Map Mates
-      </h1>
+    <div className="container py-8 md:py-16 md:max-w-screen-md">
+      <h1 className="text-3xl font-bold md:text-5xl">My Map Mates</h1>
 
       {pendingRequests.length > 0 && (
         <>
@@ -73,7 +73,20 @@ export default async function FriendsPage() {
           ))}
         </div>
       ) : (
-        <p className="mt-2">You have no friends.</p>
+        <>
+          <p className="mt-2">
+            You have no friends. Start by sharing your{' '}
+            <Link href={'/profile'} className="underline">
+              profile
+            </Link>{' '}
+            with someone!
+          </p>
+
+          <CopyProfileLink
+            userId={userWithFriends?.id}
+            className="mt-4 btn btn--primary"
+          />
+        </>
       )}
     </div>
   );
