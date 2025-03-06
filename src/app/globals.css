@@ -4,6 +4,7 @@
 
 :root {
   --colors-primary: theme('colors.indigo.600');
+  --colors-off-white: theme('colors.slate.100');
 }
 
 body {

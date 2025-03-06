@@ -14,6 +14,7 @@ export default {
     extend: {
       colors: {
         primary: 'var(--colors-primary)',
+        offwhite: 'var(--colors-off-white)',
       },
     },
   },
