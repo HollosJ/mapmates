@@ -1,7 +1,7 @@
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -9,7 +9,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Session not found' }, { status: 401 });
+      return NextResponse.json({ error: "Session not found" }, { status: 401 });
     }
 
     // Get the user's email from the session
@@ -21,14 +21,14 @@ export async function GET() {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(
       { visitedCountries: user.visitedCountries },
       {
         status: 200,
-      }
+      },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -41,8 +41,8 @@ export async function PATCH(req: Request) {
 
     if (!session) {
       return NextResponse.json(
-        { error: 'Unauthorized: No user session found' },
-        { status: 401 }
+        { error: "Unauthorized: No user session found" },
+        { status: 401 },
       );
     }
 
@@ -59,7 +59,7 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(
       { visitedCountries: newVisitedCountries },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

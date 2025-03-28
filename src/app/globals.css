@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --colors-primary: theme('colors.indigo.600');
-  --colors-off-white: theme('colors.slate.100');
+  --colors-primary: theme("colors.indigo.600");
+  --colors-off-white: theme("colors.slate.100");
 }
 
 body {
@@ -12,19 +12,19 @@ body {
 }
 
 .btn {
-  @apply flex items-center justify-center px-4 py-2 rounded;
+  @apply flex items-center justify-center rounded px-4 py-2;
 }
 
 .btn--primary {
-  @apply text-white transition bg-black hover:bg-black/90;
+  @apply bg-black text-white transition hover:bg-black/90;
 }
 
 .btn--secondary {
-  @apply text-black transition bg-white border-2 hover:border-black/20;
+  @apply border-2 bg-white text-black transition hover:border-black/20;
 }
 
 .skeleton {
-  @apply bg-gray-200 animate-pulse;
+  @apply animate-pulse bg-gray-200;
 }
 
 a:not(.btn) {
@@ -33,14 +33,14 @@ a:not(.btn) {
 
 /* Inputs */
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
+input[type="text"],
+input[type="email"],
+input[type="password"],
 select,
 textarea {
-  @apply border rounded p-2 w-full;
+  @apply w-full rounded border p-2;
 }
 
-input[type='color'] {
-  @apply border rounded p-0 size-8 border-none;
+input[type="color"] {
+  @apply size-8 rounded border border-none p-0;
 }

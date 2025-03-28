@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { CheckBadgeIcon, ShareIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { CheckBadgeIcon, ShareIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
 export default function CopyProfileLink({
   userId,
@@ -20,19 +20,19 @@ export default function CopyProfileLink({
 
   return (
     <button
-      className={`${className || ''} flex items-center ${
-        isCopied ? 'text-green-700' : 'text-gray-700'
+      className={`${className || ""} flex items-center ${
+        isCopied ? "text-green-700" : "text-gray-700"
       }`}
       onClick={copyProfileLink}
       type="button"
       disabled={isCopied}
     >
-      {isCopied ? 'Copied to clipboard!' : 'Share Profile Link'}
+      {isCopied ? "Copied to clipboard!" : "Share Profile Link"}
 
       {isCopied ? (
-        <CheckBadgeIcon className="size-4 ml-2" />
+        <CheckBadgeIcon className="ml-2 size-4" />
       ) : (
-        <ShareIcon className="size-4 ml-2" />
+        <ShareIcon className="ml-2 size-4" />
       )}
     </button>
   );

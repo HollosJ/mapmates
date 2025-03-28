@@ -1,10 +1,10 @@
-import prisma from '@/lib/prisma';
-import { NextAuthOptions } from 'next-auth';
-import Google from 'next-auth/providers/google';
+import prisma from "@/lib/prisma";
+import { NextAuthOptions } from "next-auth";
+import Google from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   providers: [
     Google({
@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (!user.email) {
-        throw new Error('No email found');
+        throw new Error("No email found");
       }
 
       await prisma.user.upsert({
@@ -25,17 +25,17 @@ export const authOptions: NextAuthOptions = {
         create: {
           email: user.email,
           name: user.name || user.email,
-          image: user.image || '',
+          image: user.image || "",
           visitedCountries: [],
-          visibility: 'ALL',
+          visibility: "ALL",
 
           // Theme colors
-          backgroundColor: '#4f46e5',
-          unvisitedCountryColor: '#f3f3f3',
-          visitedCountryColor: '#5bc35b',
+          backgroundColor: "#4f46e5",
+          unvisitedCountryColor: "#f3f3f3",
+          visitedCountryColor: "#5bc35b",
         },
         update: {
-          image: user.image || '',
+          image: user.image || "",
         },
       });
 

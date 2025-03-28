@@ -5,5 +5,5 @@ type Props = {
 export default function FormError({ children }: Props) {
   if (!children) return <></>;
 
-  return <div className="text-red-500 text-sm">{children}</div>;
+  return <div className="text-sm text-red-500">{children}</div>;
 }

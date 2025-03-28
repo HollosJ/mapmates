@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { acceptFriendRequest, rejectFriendRequest } from '@/lib/actions';
-import { useState } from 'react';
+import { acceptFriendRequest, rejectFriendRequest } from "@/lib/actions";
+import { useState } from "react";
 
 export default function FriendRequestButtons({
   friendshipId,
@@ -25,17 +25,17 @@ export default function FriendRequestButtons({
   };
 
   return (
-    <div className={`${className || ''} flex flex-wrap`}>
+    <div className={`${className || ""} flex flex-wrap`}>
       <button
         className="btn btn--primary"
         onClick={handleAccept}
         disabled={isLoading}
       >
-        {isLoading ? 'Accepting...' : 'Accept'}
+        {isLoading ? "Accepting..." : "Accept"}
       </button>
 
       <button className="btn" onClick={handleReject} disabled={isLoading}>
-        {isLoading ? 'Rejecting...' : 'Reject'}
+        {isLoading ? "Rejecting..." : "Reject"}
       </button>
     </div>
   );
