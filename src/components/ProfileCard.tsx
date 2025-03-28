@@ -1,14 +1,15 @@
-import CopyProfileLink from '@/components/CopyProfileLink';
-import FlagList from '@/components/FlagList';
-import StaticMap from '@/components/Map/StaticMap';
-import { rejectFriendRequest, sendFriendRequest } from '@/lib/actions';
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
-import { DBUser } from '@/types';
-import { MapIcon, PencilIcon } from '@heroicons/react/24/solid';
-import { getServerSession } from 'next-auth';
-import Image from 'next/image';
-import Link from 'next/link';
+import CopyProfileLink from "@/components/CopyProfileLink";
+import FlagList from "@/components/FlagList";
+import StaticMap from "@/components/Map/StaticMap";
+import { rejectFriendRequest, sendFriendRequest } from "@/lib/actions";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { DBUser } from "@/types";
+import { MapIcon, PencilIcon } from "@heroicons/react/24/solid";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
+import Link from "next/link";
+import { toast } from "sonner";
 
 type Props = {
   user: DBUser;
@@ -51,32 +52,32 @@ const ProfileCard = async ({ user, className }: Props) => {
   return (
     <div
       className={`${
-        className || ''
-      } bg-white rounded border shadow md:p-8 p-4 flex flex-col items-center md:max-w-screen-sm`}
+        className || ""
+      } flex flex-col items-center rounded border bg-white p-4 shadow md:max-w-screen-sm md:p-8`}
     >
       {isCurrentUser && (
-        <Link href="/profile/edit" className="text-indigo-500 mb-4 text-sm">
+        <Link href="/profile/edit" className="mb-4 text-sm text-indigo-500">
           Edit Profile
         </Link>
       )}
 
       {user.image && (
         <Image
-          src={user.image || ''}
-          alt={user.name || ''}
+          src={user.image || ""}
+          alt={user.name || ""}
           width={100}
           height={100}
-          className="rounded-full size-16"
+          className="size-16 rounded-full"
         />
       )}
 
-      <h1 className="mt-4 text-2xl font-bold">{user.name || ''}</h1>
+      <h1 className="mt-4 text-2xl font-bold">{user.name || ""}</h1>
 
       {user.visitedCountries && user.visitedCountries.length > 0 ? (
         <>
           <p className="mb-8 text-sm text-gray-600">
             has visited {user.visitedCountries.length} countr
-            {user.visitedCountries.length === 1 ? 'y' : 'ies'}:
+            {user.visitedCountries.length === 1 ? "y" : "ies"}:
           </p>
 
           <FlagList
@@ -90,31 +91,31 @@ const ProfileCard = async ({ user, className }: Props) => {
           {isCurrentUser ? (
             <Link
               href="/map"
-              className="relative w-full mt-8 overflow-hidden transition-all rounded group"
+              className="group relative mt-8 w-full overflow-hidden rounded transition-all"
             >
               <StaticMap
                 visitedCountries={user.visitedCountries}
                 className="w-full"
                 // Theme colors
-                backgroundColor={user.backgroundColor || '#fff'}
-                unvisitedCountryColor={user.unvisitedCountryColor || '#f3f3f3'}
-                visitedCountryColor={user.visitedCountryColor || '#5bc35b'}
+                backgroundColor={user.backgroundColor || "#fff"}
+                unvisitedCountryColor={user.unvisitedCountryColor || "#f3f3f3"}
+                visitedCountryColor={user.visitedCountryColor || "#5bc35b"}
               />
 
-              <div className="absolute top-0 left-0 grid w-full h-full transition-all opacity-0 bg-black/80 backdrop-blur-sm group-hover:opacity-100 place-items-center ">
-                <p className="text-white flex items-center justify-center">
+              <div className="absolute left-0 top-0 grid h-full w-full place-items-center bg-black/80 opacity-0 backdrop-blur-sm transition-all group-hover:opacity-100">
+                <p className="flex items-center justify-center text-white">
                   Edit your Map
-                  <PencilIcon className="ml-2 w-4 h-4" />
+                  <PencilIcon className="ml-2 h-4 w-4" />
                 </p>
               </div>
             </Link>
           ) : (
             <StaticMap
               visitedCountries={user.visitedCountries}
-              className="w-full mt-8 rounded"
-              backgroundColor={user.backgroundColor || '#fff'}
-              unvisitedCountryColor={user.unvisitedCountryColor || '#f3f3f3'}
-              visitedCountryColor={user.visitedCountryColor || '#5bc35b'}
+              className="mt-8 w-full rounded"
+              backgroundColor={user.backgroundColor || "#fff"}
+              unvisitedCountryColor={user.unvisitedCountryColor || "#f3f3f3"}
+              visitedCountryColor={user.visitedCountryColor || "#5bc35b"}
             />
           )}
         </>
@@ -126,39 +127,39 @@ const ProfileCard = async ({ user, className }: Props) => {
 
           <Link
             href="/map"
-            className="mt-4 md:mt-8 flex flex-col items-center gap-4"
+            className="mt-4 flex flex-col items-center gap-4 md:mt-8"
           >
             <button className="btn btn--primary">
               Start Mapping
-              <MapIcon className="size-6 ml-2" />
+              <MapIcon className="ml-2 size-6" />
             </button>
           </Link>
         </div>
       )}
 
-      {friendshipBetweenUsers?.status === 'ACCEPTED' && sessionUser && (
+      {friendshipBetweenUsers?.status === "ACCEPTED" && sessionUser && (
         <form
           action={async () => {
-            'use server';
+            "use server";
             await rejectFriendRequest(friendshipBetweenUsers.id);
           }}
         >
-          <button type="submit" className="text-red-700 mt-4 md:mt-8">
+          <button type="submit" className="mt-4 text-red-700 md:mt-8">
             Remove Friend
           </button>
         </form>
       )}
 
-      {friendshipBetweenUsers?.status === 'PENDING' &&
+      {friendshipBetweenUsers?.status === "PENDING" &&
         friendshipBetweenUsers?.senderId === sessionUser?.id &&
         sessionUser && (
           <form
             action={async () => {
-              'use server';
+              "use server";
               await rejectFriendRequest(friendshipBetweenUsers.id);
             }}
           >
-            <button type="submit" className="text-red-700 mt-4 md:mt-8">
+            <button type="submit" className="mt-4 text-red-700 md:mt-8">
               Cancel Friend Request
             </button>
           </form>
@@ -167,7 +168,7 @@ const ProfileCard = async ({ user, className }: Props) => {
       {!friendshipBetweenUsers?.status && !isCurrentUser && sessionUser && (
         <form
           action={async () => {
-            'use server';
+            "use server";
             await sendFriendRequest(user.id);
           }}
         >

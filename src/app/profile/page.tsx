@@ -1,12 +1,12 @@
-import ProfileCard from '@/components/ProfileCard';
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
-import { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
+import ProfileCard from "@/components/ProfileCard";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { Metadata } from "next";
+import { getServerSession } from "next-auth";
 
 //Metadata
 export const metadata: Metadata = {
-  title: 'My Profile | Map Mates',
+  title: "My Profile | Map Mates",
 };
 
 export default async function ProfilePage() {
@@ -24,7 +24,7 @@ export default async function ProfilePage() {
     <div
       className="min-h-dvh"
       style={{
-        backgroundColor: user.backgroundColor || '#4238c9',
+        backgroundColor: user.backgroundColor || "#4238c9",
       }}
     >
       <div className="container py-8 md:py-16">

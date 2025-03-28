@@ -1,5 +1,5 @@
-import { Country } from '@/types';
-import { useEffect, useState } from 'react';
+import { Country } from "@/types";
+import { useEffect, useState } from "react";
 
 const useCountriesByCCN3 = (ccn3Array: string[]) => {
   const [countries, setCountries] = useState([]);
@@ -8,17 +8,17 @@ const useCountriesByCCN3 = (ccn3Array: string[]) => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch('/countries.json');
+        const response = await fetch("/countries.json");
         if (!response.ok) {
           throw new Error(
-            `Failed to load countries.json: ${response.statusText}`
+            `Failed to load countries.json: ${response.statusText}`,
           );
         }
         const allCountries = await response.json();
 
         // Filter countries based on the ccn3Array
         const filteredCountries = allCountries.filter((country: Country) =>
-          ccn3Array.includes(country.ccn3)
+          ccn3Array.includes(country.ccn3),
         );
 
         setCountries(filteredCountries);

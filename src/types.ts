@@ -5,8 +5,8 @@ export type Country = {
 };
 
 export enum FriendshipStatus {
-  PENDING = 'PENDING',
-  ACCEPTED = 'ACCEPTED',
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
 }
 
 export type DBUser = {

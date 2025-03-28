@@ -1,7 +1,7 @@
-import ProfileCard from '@/components/ProfileCard';
-import prisma from '@/lib/prisma';
-import { DBUser } from '@/types';
-import { notFound } from 'next/navigation';
+import ProfileCard from "@/components/ProfileCard";
+import prisma from "@/lib/prisma";
+import { DBUser } from "@/types";
+import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const user = await getUserById(id);
 
   return {
-    title: `${user?.name || 'User'} | Map Mates`,
+    title: `${user?.name || "User"} | Map Mates`,
   };
 }
 
@@ -49,7 +49,7 @@ export default async function UserProfilePage({ params }: { params: Params }) {
     <div
       className="min-h-dvh"
       style={{
-        backgroundColor: user.backgroundColor || '#4238c9',
+        backgroundColor: user.backgroundColor || "#4238c9",
       }}
     >
       <div className="container py-8 md:py-16">

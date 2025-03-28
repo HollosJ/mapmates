@@ -1,4 +1,4 @@
-import MapBase from '@/components/Map/MapBase';
+import MapBase from "@/components/Map/MapBase";
 
 type Props = {
   visitedCountries: string[];

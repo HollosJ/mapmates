@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import geoJson from '@/app/countries-110m.json';
-import { useState } from 'react';
+import geoJson from "@/app/countries-110m.json";
+import { useState } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
-} from 'react-simple-maps';
+} from "react-simple-maps";
 
 type Props = {
   className?: string;
@@ -23,9 +23,9 @@ type Props = {
 export default function MapBase({
   className,
   visitedCountries,
-  backgroundColor = '#fff',
-  unvisitedCountryColor = '#f3f3f3',
-  visitedCountryColor = '#5bc35b',
+  backgroundColor = "#fff",
+  unvisitedCountryColor = "#f3f3f3",
+  visitedCountryColor = "#5bc35b",
   interactive = false,
   isPending = false,
   onCountryClick,
@@ -37,18 +37,18 @@ export default function MapBase({
       className={`relative ${className}`}
       style={{
         backgroundColor: backgroundColor,
-        pointerEvents: interactive ? 'auto' : 'none', // Disable interactions if static
+        pointerEvents: interactive ? "auto" : "none", // Disable interactions if static
       }}
     >
       {/* Show hovered country name (only for interactive map) */}
       {interactive && hoveredCountry && (
-        <div className="absolute z-50 px-4 py-2 text-white rounded-md shadow-md top-4 left-1/2 -translate-x-1/2 bg-black/70 hidden sm:block">
+        <div className="absolute left-1/2 top-4 z-50 hidden -translate-x-1/2 rounded-md bg-black/70 px-4 py-2 text-white shadow-md sm:block">
           {hoveredCountry}
         </div>
       )}
 
       <ComposableMap
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: "100%", height: "100%" }}
         projection="geoMercator"
       >
         {interactive ? (
@@ -60,19 +60,19 @@ export default function MapBase({
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    className="transition-all stroke-[0.25] stroke-black outline-none cursor-pointer hover:opacity-50"
+                    className="cursor-pointer stroke-black stroke-[0.25] outline-none transition-all hover:opacity-50"
                     style={{
                       default: {
                         fill: visitedCountries.includes(geo.id)
                           ? visitedCountryColor
                           : unvisitedCountryColor,
-                        transition: 'all 250ms ease-in-out',
+                        transition: "all 250ms ease-in-out",
                       },
                       hover: {
                         fill: visitedCountries.includes(geo.id)
                           ? visitedCountryColor
                           : unvisitedCountryColor,
-                        cursor: isPending ? 'wait' : 'pointer',
+                        cursor: isPending ? "wait" : "pointer",
                       },
                     }}
                     onMouseEnter={() =>
@@ -95,7 +95,7 @@ export default function MapBase({
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  className="stroke-[0.25] stroke-black outline-none pointer-events-none"
+                  className="pointer-events-none stroke-black stroke-[0.25] outline-none"
                   style={{
                     default: {
                       fill: visitedCountries.includes(geo.id)

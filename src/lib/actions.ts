@@ -1,11 +1,10 @@
-'use server';
-
-import prisma from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
-import { authOptions } from './auth';
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import { authOptions } from "./auth";
+import { toast } from "sonner";
 
 // Friendship actions
 export async function acceptFriendRequest(friendshipId: string) {
@@ -13,7 +12,7 @@ export async function acceptFriendRequest(friendshipId: string) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    throw new Error('Unauthorized: No user session found');
+    throw new Error("Unauthorized: No user session found");
   }
 
   // Update the friendship status to 'ACCEPTED'
@@ -22,12 +21,12 @@ export async function acceptFriendRequest(friendshipId: string) {
       id: friendshipId,
     },
     data: {
-      status: 'ACCEPTED',
+      status: "ACCEPTED",
     },
   });
 
   // Optionally, you can trigger revalidation for the friends page
-  revalidatePath('/friends');
+  revalidatePath("/friends");
 
   return updatedFriendship;
 }
@@ -41,7 +40,7 @@ export async function rejectFriendRequest(friendshipId: string) {
   });
 
   // Optionally, trigger revalidation for the friends page
-  revalidatePath('/friends');
+  revalidatePath("/friends");
 }
 
 export async function sendFriendRequest(receiverId: string) {
@@ -49,7 +48,7 @@ export async function sendFriendRequest(receiverId: string) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    throw new Error('Unauthorized: No user session found');
+    throw new Error("Unauthorized: No user session found");
   }
 
   // Create a new friendship between the current user and the receiver
@@ -65,11 +64,11 @@ export async function sendFriendRequest(receiverId: string) {
           id: receiverId,
         },
       },
-      status: 'PENDING',
+      status: "PENDING",
     },
   });
 
-  revalidatePath('/friends');
+  revalidatePath("/friends");
 
   return newFriendship;
 }
@@ -80,7 +79,7 @@ export async function toggleVisitedCountry(countryId: string) {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user?.email) {
-    throw new Error('Unauthorized: No user session found');
+    throw new Error("Unauthorized: No user session found");
   }
 
   // Fetch the users current items
@@ -94,7 +93,7 @@ export async function toggleVisitedCountry(countryId: string) {
   });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
   const isAlreadyVisited = user.visitedCountries.includes(countryId);
@@ -109,10 +108,10 @@ export async function toggleVisitedCountry(countryId: string) {
   });
 
   if (!updatedUser) {
-    throw new Error('Failed to update user');
+    throw new Error("Failed to update user");
   }
 
-  revalidatePath('/map');
+  revalidatePath("/map");
 
   return updatedUser;
 }
@@ -121,42 +120,42 @@ export async function toggleVisitedCountry(countryId: string) {
 const updateProfileSchema = z.object({
   name: z
     .string()
-    .min(1, 'Display name is required')
-    .max(30, 'Display name is too long')
-    .nonempty('Invalid name')
+    .min(1, "Display name is required")
+    .max(30, "Display name is too long")
+    .nonempty("Invalid name")
     .regex(
       /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9_ ]+$/,
-      'Username can only contain letters, numbers, and underscores'
+      "Username can only contain letters, numbers, and underscores",
     ),
 
-  visibility: z.enum(['ALL', 'FRIENDS', 'HIDDEN']),
+  visibility: z.enum(["ALL", "FRIENDS", "HIDDEN"]),
 
   backgroundColor: z
     .string()
-    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Invalid hex color code"),
   unvisitedCountryColor: z
     .string()
-    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Invalid hex color code"),
   visitedCountryColor: z
     .string()
-    .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid hex color code'),
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Invalid hex color code"),
 });
 
 export async function updateProfile(_: any, formData: FormData) {
   // Validate the form data
   const parsedData = updateProfileSchema.safeParse({
-    name: formData.get('name'),
-    backgroundColor: formData.get('backgroundColor'),
-    unvisitedCountryColor: formData.get('unvisitedCountryColor'),
-    visitedCountryColor: formData.get('visitedCountryColor'),
-    visibility: formData.get('visibility'),
+    name: formData.get("name"),
+    backgroundColor: formData.get("backgroundColor"),
+    unvisitedCountryColor: formData.get("unvisitedCountryColor"),
+    visitedCountryColor: formData.get("visitedCountryColor"),
+    visibility: formData.get("visibility"),
   });
 
   // Handle validation errors
   if (!parsedData.success) {
     const errors = parsedData.error.flatten().fieldErrors;
 
-    return { success: '', errors: Object.values(errors).flat() };
+    return { success: "", errors: Object.values(errors).flat() };
   }
 
   // Check if the user is authenticated
@@ -164,8 +163,8 @@ export async function updateProfile(_: any, formData: FormData) {
 
   if (!session || !session.user?.email)
     return {
-      success: '',
-      errors: ['Unauthorized'],
+      success: "",
+      errors: ["Unauthorized"],
     };
 
   // Update the user's profile and send the user back to their profile page
@@ -182,10 +181,10 @@ export async function updateProfile(_: any, formData: FormData) {
     },
   });
 
-  redirect('/profile');
+  redirect("/profile");
 
   return {
-    success: 'Profile updated successfully',
+    success: "Profile updated successfully",
     errors: [],
   };
 }
