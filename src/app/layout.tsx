@@ -1,10 +1,10 @@
+import "@/app/globals.css";
 import Nav from "@/components/Nav";
 import SessionProvider from "@/components/SessionProvider";
 import { authOptions } from "@/lib/auth";
 import type { Metadata, Viewport } from "next";
 import { getServerSession } from "next-auth";
 import localFont from "next/font/local";
-import "./globals.css";
 import { Toaster } from "sonner";
 
 const geistSans = localFont({
