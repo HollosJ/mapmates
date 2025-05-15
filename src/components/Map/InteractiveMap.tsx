@@ -30,6 +30,7 @@ const InteractiveMap = () => {
         setThemeVisited(data.visitedCountryColor);
       } catch (error) {
         console.error(error);
+        toast.error("Error fetching countries. Please try again.");
       } finally {
         setIsLoading(false);
       }
