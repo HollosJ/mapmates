@@ -30,7 +30,7 @@ const Nav = () => {
   }
 
   return (
-    <nav className="fixed right-0 top-0 z-10">
+    <nav className="fixed right-0 top-0 z-50">
       {/* Open button */}
       <button
         onClick={open}
@@ -64,9 +64,13 @@ const Nav = () => {
           <XMarkIcon className="size-6" />
         </button>
 
+        <span className="text-center text-xl font-bold">Map Mates</span>
+
+        <hr className="my-4" />
+
         {session?.user && (
           <>
-            <Link href="/map" className="btn btn--primary mt-2" onClick={close}>
+            <Link href="/map" className="btn btn--primary" onClick={close}>
               My Map <MapIcon className="ml-2 size-6" />
             </Link>
 
@@ -90,8 +94,10 @@ const Nav = () => {
 
         <AuthButton className="mt-2" />
 
+        <hr className="my-4" />
+
         {/* Copyright details */}
-        <div className="mt-4 text-center text-sm text-gray-500">
+        <div className="text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()}{" "}
           <Link
             className="underline"
