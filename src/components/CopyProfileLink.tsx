@@ -27,7 +27,7 @@ export default function CopyProfileLink({
       type="button"
       disabled={isCopied}
     >
-      {isCopied ? "Copied to clipboard!" : "Share Profile Link"}
+      {isCopied ? "Copied to clipboard!" : "Copy Profile Link"}
 
       {isCopied ? (
         <CheckBadgeIcon className="ml-2 size-4" />
