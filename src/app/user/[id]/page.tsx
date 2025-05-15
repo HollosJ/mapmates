@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 
   return {
     title: `${user?.name || "User"} | Map Mates`,
+    description: `${user?.name} has visited ${user?.visitedCountries?.length} countries. Check out their profile!`,
   };
 }
 
