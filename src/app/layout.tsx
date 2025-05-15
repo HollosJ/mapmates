@@ -31,6 +31,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Map Mates" />
+      </head>
+
       <body
         className={`${geistSans.variable} min-h-dvh bg-offwhite antialiased`}
       >
