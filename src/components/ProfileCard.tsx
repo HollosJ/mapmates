@@ -1,7 +1,7 @@
 import CopyProfileLink from "@/components/CopyProfileLink";
 import FlagList from "@/components/FlagList";
 import StaticMap from "@/components/Map/StaticMap";
-import { rejectFriendRequest, sendFriendRequest } from "@/lib/actions";
+import ProfileCardControls from "@/components/ProfileCardControls";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { DBUser } from "@/types";
@@ -9,7 +9,6 @@ import { MapIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "sonner";
 
 type Props = {
   user: DBUser;
@@ -53,13 +52,13 @@ const ProfileCard = async ({ user, className }: Props) => {
     <div
       className={`${
         className || ""
-      } flex flex-col items-center rounded border bg-white p-4 shadow md:max-w-screen-sm md:p-8`}
+      } relative flex flex-col items-center rounded border bg-white p-4 shadow md:max-w-screen-sm md:p-8`}
     >
-      {isCurrentUser && (
-        <Link href="/profile/edit" className="mb-4 text-sm text-indigo-500">
-          Edit Profile
-        </Link>
-      )}
+      <ProfileCardControls
+        user={user}
+        sessionUser={sessionUser}
+        friendshipBetweenUsers={friendshipBetweenUsers}
+      />
 
       {user.image && (
         <Image
@@ -135,47 +134,6 @@ const ProfileCard = async ({ user, className }: Props) => {
             </button>
           </Link>
         </div>
-      )}
-
-      {friendshipBetweenUsers?.status === "ACCEPTED" && sessionUser && (
-        <form
-          action={async () => {
-            "use server";
-            await rejectFriendRequest(friendshipBetweenUsers.id);
-          }}
-        >
-          <button type="submit" className="mt-4 text-red-700 md:mt-8">
-            Remove Friend
-          </button>
-        </form>
-      )}
-
-      {friendshipBetweenUsers?.status === "PENDING" &&
-        friendshipBetweenUsers?.senderId === sessionUser?.id &&
-        sessionUser && (
-          <form
-            action={async () => {
-              "use server";
-              await rejectFriendRequest(friendshipBetweenUsers.id);
-            }}
-          >
-            <button type="submit" className="mt-4 text-red-700 md:mt-8">
-              Cancel Friend Request
-            </button>
-          </form>
-        )}
-
-      {!friendshipBetweenUsers?.status && !isCurrentUser && sessionUser && (
-        <form
-          action={async () => {
-            "use server";
-            await sendFriendRequest(user.id);
-          }}
-        >
-          <button type="submit" className="btn btn--primary mt-4 md:mt-8">
-            Send Friend Request
-          </button>
-        </form>
       )}
 
       {isCurrentUser && (
