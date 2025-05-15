@@ -1,12 +1,11 @@
 "use server";
 
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { authOptions } from "./auth";
-import { toast } from "sonner";
 
 // Friendship actions
 export async function acceptFriendRequest(friendshipId: string) {
@@ -54,7 +53,7 @@ export async function sendFriendRequest(receiverId: string) {
   }
 
   // Create a new friendship between the current user and the receiver
-  const newFriendship = await prisma.friendship.create({
+  await prisma.friendship.create({
     data: {
       sender: {
         connect: {
@@ -71,8 +70,6 @@ export async function sendFriendRequest(receiverId: string) {
   });
 
   revalidatePath("/friends");
-
-  return newFriendship;
 }
 
 // Visited countries actions
