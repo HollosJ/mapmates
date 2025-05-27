@@ -6,11 +6,18 @@ import type { Metadata, Viewport } from "next";
 import { getServerSession } from "next-auth";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
+import { Bricolage_Grotesque, Lato } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const lato = Lato({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +43,7 @@ export default async function RootLayout({
       </head>
 
       <body
-        className={`${geistSans.variable} min-h-dvh bg-offwhite antialiased`}
+        className={`${lato.variable} ${bricolageGrotesque.variable} min-h-dvh bg-offwhite antialiased`}
       >
         <SessionProvider session={session}>
           <Nav />

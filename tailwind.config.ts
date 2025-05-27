@@ -7,6 +7,10 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      sans: "var(--font-sans)",
+      display: "var(--font-display)",
+    },
     container: {
       padding: "1rem",
       center: true,
